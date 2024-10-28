@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "../../styles/style.css";
 import styled from 'styled-components';
+import { FaSearch } from "react-icons/fa";
 
 const SectionLab = styled.div`
     display: flex;
@@ -63,22 +64,26 @@ const SectionLab = styled.div`
         transition: 0.3s;
     }
 
-    .section__lab-list {
-        width: 1180px;
-        padding: 40px;
-        font-size: 18px;
-        font-family: Montserrat;
-        background: #fff;
-        text-align: left;
-        border-radius: 7px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-    }
+.section__lab-list {
+    width: 1270px;
+    height: 60px;
+    padding: 40px;
+    font-size: 18px;
+    font-family: Montserrat;
+    background: #f0f0f0;
+    text-align: left;
+    border-radius: 7px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
 
     .section__lab-list-ready {
-        width: 1190px;
+        width: 1270px;
         padding: 40px;
         font-size: 18px;
         text-align: left;
@@ -88,6 +93,7 @@ const SectionLab = styled.div`
         border-radius: 7px;
         display: block;
         border: none;
+        box-sizing: border-box;
     }
 `;
 
@@ -132,6 +138,46 @@ const TaskButton = styled.button`
     }
 `;
 
+const SearchContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const SearchInputContainer = styled.div`
+  position: relative;
+  width: 335px; // Search box width
+`;
+
+const SearchInput = styled.input`
+  padding: 0;
+  width: 100%;
+  height: 47px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  color: #000;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const SearchIcon = styled(FaSearch)`
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #000;
+`;
+
 const StudLaboratory = () => {
     const [labItems, setLabItems] = useState({ isLoading: true, data: [] });
     const [searchValue, setSearchValue] = useState("");
@@ -145,6 +191,10 @@ const StudLaboratory = () => {
         const updatedLabItems = [...labItems.data];
         updatedLabItems.splice(index, 1);
         setLabItems((prev) => ({ ...prev, data: updatedLabItems }));
+    };
+
+    const handleSearch = () => {
+        console.log("Search value:", searchValue);
     };
 
     useEffect(() => {
@@ -196,13 +246,15 @@ const StudLaboratory = () => {
             <SectionLab>
                 <div className="section__lab-block">
                     <div className="section__lab-blockSearch">
-                        <input
-                            type="text"
-                            placeholder="Поиск"
-                            value={searchValue}
-                            onChange={handleSearchChange}
-                            className="section__lab-input"
-                        />
+                        <SearchInputContainer>
+                            <SearchInput
+                                type="text"
+                                placeholder="Поиск студента..."
+                                value={searchValue}
+                                onChange={handleSearchChange}
+                            />
+                            <SearchIcon onClick={handleSearch} />
+                        </SearchInputContainer>
                         <Link id="buttonAdd" className="section__lab-btn">Все лабораторные</Link>
                         <Link id="buttonAdd" className="section__lab-btn">Выполнено</Link>
                         <Link id="buttonAdd" className="section__lab-btn">Не выполнено</Link>
