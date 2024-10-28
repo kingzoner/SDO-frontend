@@ -1,21 +1,16 @@
-
 import React from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Section = styled.div`
-    background-color: #C8D5F6;
-    width: 100%;
-    height: 100px;
-    margin: 0;
-    padding: 0;
-`
+  min-height: 30vh;
+  background-color: #c8d5f6;
+  width: 100%;
+  height: 100px;
+  bottom: 0;
+`;
 
 const Footer = () => {
-    return ( 
-        <Section>
+  return <Section></Section>;
+};
 
-        </Section>
-     );
-}
- 
 export default Footer;
