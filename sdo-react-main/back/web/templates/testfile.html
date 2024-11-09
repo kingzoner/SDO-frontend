@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Test File</title>
+    <link rel="stylesheet" href="/static/testfile.css">
+</head>
+<body>
+<div class="container">
+    <h1>Upload a File</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="testSection" class="hidden">
+        <button id="testButton">Test File</button>
+    </div>
+
+    <div id="result" class="result hidden">
+        <h2>Processing Result:</h2>
+        <p><strong>Formulas:</strong> <span id="formulas"></span></p>
+        <p><strong>Result:</strong> <span id="resultOutput"></span></p>
+        <p><strong>Execution Time:</strong> <span id="executionTime"></span></p>
+        <p><strong>Code Length:</strong> <span id="codeLength"></span></p>
+    </div>
+</div>
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert("Please select a file to upload.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            // Отправка файла на сервер
+            const response = await fetch('/uploadFile', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) throw new Error("Network response was not ok");
+
+            const data = await response.json();
+
+            // Сохраняем имя файла и показываем кнопку "Протестировать"
+            const filename = data.filename;
+            document.getElementById('testSection').classList.remove('hidden');
+
+            // Обработчик для кнопки "Протестировать"
+            document.getElementById('testButton').onclick = async function () {
+                const testFormData = new FormData();
+                testFormData.append("filename", filename);
+
+                try {
+                    const testResponse = await fetch('/testFile', {
+                        method: 'POST',
+                        body: testFormData
+                    });
+
+                    if (!testResponse.ok) throw new Error("Network response was not ok");
+
+                    const testData = await testResponse.json();
+
+                    // Отображение результата тестирования
+                    document.getElementById('formulas').textContent = testData.formulas;
+                    document.getElementById('resultOutput').textContent = testData.result;
+                    document.getElementById('executionTime').textContent = testData.execution_time;
+                    document.getElementById('codeLength').textContent = testData.code_length;
+
+                    document.getElementById('result').classList.remove('hidden');
+                } catch (error) {
+                    console.error('Error testing file:', error);
+                    alert("An error occurred while testing the file.");
+                }
+            };
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert("An error occurred while uploading the file.");
+        }
+    });
+
+</script>
+</body>
+</html>

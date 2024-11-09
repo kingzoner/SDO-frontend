@@ -1,3 +1,4 @@
+import builtins
 import contextlib
 import io
 import threading
@@ -5,16 +6,14 @@ import time
 
 
 class TeacherList:
-    variables = dict()
-    input_variables = []
-    formulas_teacher = dict()
-    formulas_student = dict()
-    check = []
     operations_in_math = ['+', '-', '/', '*', '=']
 
-    def __int__(self, variables, formulas):
-        self.variables = variables
-        self.formulas = formulas
+    def __init__(self, variables=None, formulas=None):
+        self.variables = variables or dict()
+        self.input_variables = []
+        self.formulas_teacher = dict()
+        self.formulas_student = dict()
+        self.check = []
 
     def binding_variables(self, a, b):  # a - student variable, b - teacher variable
         buff = dict()
@@ -122,6 +121,7 @@ def check_formulas(path_teacher_formula, path_input_variables, path_code):
 
 
 def execute_code(file_path: str) -> tuple[str, float, int]:
+    inputs: list[int] = [1, 2, 3]
     with open(file_path, 'r') as file:
         code = file.read()
 
@@ -131,6 +131,9 @@ def execute_code(file_path: str) -> tuple[str, float, int]:
     def exec_code():
         try:
             with contextlib.redirect_stdout(output):
+                if inputs:
+                    input_iter = iter(inputs)
+                    builtins.input = lambda: next(input_iter)
                 exec(code)
         except Exception as e:
             output.write(f"Error executing code: {e}")

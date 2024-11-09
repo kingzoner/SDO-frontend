@@ -58,5 +58,5 @@ def check_file(title_file: str):
     return resp
 
 
-upload_file('testing/test_files/requestFile.txt')
+upload_file('testing/test_files/requestFile.py')
 print(check_file('studentCode.txt').content)

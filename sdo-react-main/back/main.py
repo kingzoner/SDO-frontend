@@ -1,7 +1,7 @@
 import subprocess
 from base64 import b64encode
 from typing import Dict, Any, List, Type, Annotated
-from fastapi import Request, File, UploadFile
+from fastapi import Request, File, UploadFile, Form
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
@@ -236,12 +236,12 @@ async def execute_testing_main():
         return JSONResponse(content={"error": str(e)})
 
 
-@app.get('/testFile/')
-async def checking_file(title: str):
+@app.post('/testFile/')
+async def checking_file(filename: str = Form(...)):
     base_path = os.path.abspath(os.path.dirname(__file__))
     teacher_formula_path = os.path.join(base_path, 'testing', 'test_files', 'teacher_formula')
     input_variables_path = os.path.join(base_path, 'testing', 'test_files', 'input_variables')
-    code_path = os.path.join(base_path, 'testing', 'test_files', title)
+    code_path = os.path.join(base_path, 'testing', 'test_files', filename)
     result_output = check_file(teacher_formula_path, input_variables_path, code_path)
     return JSONResponse(
         content={
@@ -257,13 +257,27 @@ async def checking_file(title: str):
 async def create_file(file: Annotated[bytes, File()]):
     return {"file_size": len(file)}
 
+# временно для демонстрации
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+app.mount("/static", StaticFiles(directory="web/static"), name="static")
+templates = Jinja2Templates(directory="web/templates")
+
+@app.get("/file")
+async def test_file(request: Request):
+    return templates.TemplateResponse("testfile.html", {"request": request})
+
+####
 
 @app.post("/uploadFile")
 async def create_upload_file(file: UploadFile):
-    code_path = "testing/test_files/studentCode.txt"
+    code_path = "testing/test_files/studentCode"
     with open(code_path, "wb") as f:
         f.write(file.file.read())
-    return {"filename": file.filename}
+    return JSONResponse(
+        content={"filename": "studentCode"}
+    )
 
 
 @app.post("/uploadFiles")
@@ -303,16 +317,3 @@ async def execute_uploaded_files(files: list[UploadFile]):
         return JSONResponse(content={"result": cleaned_output})
     except Exception as e:
         return JSONResponse(content={"error": str(e)})
-
-
-@app.post("/formAutoTest")
-async def form_auto_test(count: int):
-    testing_main_path = "../Testing/main.py"
-    ListOfTest = []
-    SingleTest = []
-    OutPut = ""
-    for i in range(count):
-        Input = []
-        for i in range(3):
-            Input.append(random.random() * 1000)
-        result = subprocess.run(["python", testing_main_path], capture_output=True, text=True, stdin=Input)
