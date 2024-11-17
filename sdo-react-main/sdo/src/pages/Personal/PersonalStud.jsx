@@ -8,29 +8,44 @@ const SectionLab = styled.div`
 `
 const List = styled.li`
     width: 320px;
-    height: 100px;
-    background-color: #D5DEF6;
+    height: auto;
+    background-color: #BECBEE;
     border-radius: 7px;
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10px 20px;
+    gap: 5px;
+`;
+
 const ListSubject = styled.li`
-    width: 520px;
-    height: 50px;
+    width: 550px;
+    height: 70px;
     background-color: #fff;
     border-radius: 7px;
     list-style-type: none;
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0 10px;
 `
+
+const SubjectName = styled.div`
+    flex: 1;
+    text-align: left;
+`
+
+const ActionWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+`
+
 const BigList = styled.li`
     width: ${({ $Block }) => ($Block ? '673px' : '673px')};
-    height: ${({ $Block }) => ($Block ? '430px' : '430px')};
+    height: ${({ $Block }) => ($Block ? '500px' : '500px')}; /* можно увеличить высоту, например, до 550px */
     background-color: #E2EDD0;
     border-radius: 7px;
     display: flex;
@@ -38,21 +53,65 @@ const BigList = styled.li`
     align-items: center;
     list-style-type: none;
     justify-content: space-around;
+    margin-left: 20px;
+    padding-bottom: 20px; /* добавляем отступ снизу */
 `
+
+
 const Score = styled.div`
-    width: 40px;
+    width: 50px;
     height: 40px;
-    background-color: grey;
-    border-radius: 7px;
+    background-color: ${({ score }) => (score < 10 ? '#D9D9D9' : '#21B200')};
+    border-radius: 6px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 20px;
-`
+    text-align: center;
+`;
+
 const Text = styled.p`
     font-family: 'Montserrat';
     font-size: 16px;
-    font-weight: 600;  
-`
+    margin: 0 0 10px;
+`;
+
+const TextD = styled.h1`
+    font-family: 'Montserrat';
+    font-size: 18px;
+    margin-bottom: 0px;
+    text-align: left; /* Выравнивание текста по левому краю */
+    align-self: flex-start; /* Располагает элемент слева внутри контейнера */
+    padding-left: 55px; /* Добавляем небольшой отступ слева */
+`;
+
+
+const TextObj = styled.p`
+    font-family: 'Montserrat';
+    font-size: 16px;
+    margin: 0 15 10px;
+`;
+
+const TextMain = styled.h1`
+    font-family: 'Montserrat';
+    font-size: 16px;
+    margin: 0 0 10px;
+    font-weight: 600;
+`;
+
+const TextButton = styled.p`
+    font-family: 'Montserrat';
+    font-size: 16px;
+    margin-top: 15px;
+    color: #FFFFFF;
+`;
+
+const ScoreText = styled.p`
+    font-family: 'Montserrat';
+    font-size: 16px;
+    margin-top: 15px;
+    color: #FFFFFF;
+`;
+
 const RowBlocks = styled.div`
     display: flex;
     flex-direction: column;
@@ -64,8 +123,8 @@ const RowBlocks = styled.div`
 const Button = styled.div`
     width: 100px;
     height: 40px;
-    background-color: #C8D5F6;
-    border-radius: 7px;
+    background-color: #BECBEE;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -81,115 +140,135 @@ const PersonalStud = () => {
                             <Text>
                                 ФИО студента:
                             </Text>
-                            <Text>
+                            <TextMain>
                                 Иванов Иван Иванович
-                            </Text>
+                            </TextMain>
                         </List>
                         <List>
                             <Text>
                                 Номер группы:
                             </Text>
-                            <Text>
+                            <TextMain>
                                 221-111  
-                            </Text>
+                            </TextMain>
                         </List>
                         <List>
                             <Text>
                                 Форма обучения:
                             </Text>
-                            <Text>
+                            <TextMain>
                                 Очная
-                            </Text>
+                            </TextMain>
                         </List>
                         <List>
                             <Text>
                                 Направление обучения:
                             </Text>
-                            <Text>
+                            <TextMain>
                                 Информационная безопасность
-                            </Text>
+                            </TextMain>
                         </List>
                 </RowBlocks>
                 <RowBlocks>
                     <BigList>
-                        <Text>
+                        <TextD>
                             Дисциплины:
-                        </Text>
+                        </TextD>
                         <ListSubject>
-                            <Text>
-                                Предмет
-                            </Text>
-                            <Score>
-                                <Text>
-                                    5/10
-                                </Text>
-                            </Score>
-                            <Button>
-                                <Text>
-                                    Перейти
-                                </Text>
-                            </Button>
+                            <SubjectName>
+                                <TextObj>
+                                    Базы данных
+                                </TextObj>
+                            </SubjectName>
+                            <ActionWrapper>
+                                <Score score={4}>
+                                    <ScoreText>
+                                        4/10
+                                    </ScoreText>
+                                </Score>
+                                <Button>
+                                    <TextButton>
+                                        Перейти
+                                    </TextButton>
+                                </Button>
+                            </ActionWrapper>
                         </ListSubject>
                         <ListSubject>
-                            <Text>
-                                Предмет
-                            </Text>
-                            <Score>
-                                <Text>
-                                    5/10
-                                </Text>
+                        <SubjectName>
+                            <TextObj>
+                            Программирование на языке С++
+                            </TextObj>
+                        </SubjectName>
+                        <ActionWrapper>
+                            <Score score={4}>
+                                <ScoreText>
+                                    4/10
+                                </ScoreText>
                             </Score>
                             <Button>
-                                <Text>
+                                <TextButton>
                                     Перейти
-                                </Text>
+                                </TextButton>
                             </Button>
-                        </ListSubject>
-                        <ListSubject>
-                            <Text>
-                                Предмет
-                            </Text>
-                            <Score>
-                                <Text>
+                        </ActionWrapper>
+                    </ListSubject>
+                    <ListSubject>
+                        <SubjectName>
+                            <TextObj>
+                            Разработка web приложений
+                            </TextObj>
+                        </SubjectName>
+                        <ActionWrapper>
+                            <Score score={5}>
+                                <ScoreText>
                                     5/10
-                                </Text>
+                                </ScoreText>
                             </Score>
                             <Button>
-                                <Text>
+                                <TextButton>
                                     Перейти
-                                </Text>
+                                </TextButton>
                             </Button>
-                        </ListSubject>
-                        <ListSubject>
-                            <Text>
-                                Предмет
-                            </Text>
-                            <Score>
-                                <Text>
-                                    5/10
-                                </Text>
+                        </ActionWrapper>
+                    </ListSubject>
+                    <ListSubject>
+                        <SubjectName>
+                            <TextObj>
+                            Программирование на языке python
+                            </TextObj>
+                        </SubjectName>
+                        <ActionWrapper>
+                            <Score score={7}>
+                                <ScoreText>
+                                    7/10
+                                </ScoreText>
                             </Score>
                             <Button>
-                                <Text>
+                                <TextButton>
                                     Перейти
-                                </Text>
+                                </TextButton>
                             </Button>
-                        </ListSubject>
-                        <ListSubject>
-                            <Text>
-                                Предмет
-                            </Text>
-                            <Score>
-                                <Text>
-                                    5/10
-                                </Text>
+                        </ActionWrapper>
+                    </ListSubject>
+                    <ListSubject>
+                        <SubjectName>
+                            <TextObj>
+                            Методы и языки программирования
+                            </TextObj>
+                        </SubjectName>
+                        <ActionWrapper>
+                            <Score score={10}>
+                                <ScoreText>
+                                    10/10
+                                </ScoreText>
                             </Score>
                             <Button>
-                                <Text>
+                                <TextButton>
                                     Перейти
-                                </Text>
+                                </TextButton>
                             </Button>
-                        </ListSubject>
+                        </ActionWrapper>
+                    </ListSubject>
                     </BigList>
                 </RowBlocks>
             </SectionLab>
