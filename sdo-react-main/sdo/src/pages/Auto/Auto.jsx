@@ -79,9 +79,9 @@ const Auto = () => {
     })
     .then(data => {
       if (data.status === 'teacher') {
-        navigate('/mainTeacher');
+        navigate('/PersonalTeacher');
       } else if (data.status === 'student') {
-        navigate('/mainStud');
+        navigate('/PersonalStud');
       } else {
         throw new Error('Неизвестный статус пользователя');
       }
