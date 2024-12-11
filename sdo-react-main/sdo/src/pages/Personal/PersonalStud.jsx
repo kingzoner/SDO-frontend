@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import React, { useState, useEffect } from "react";
-import { getUserData } from '../../api/user-api'
+import { getUserData } from '../../api/user-api';
+import { getSubjects } from '../../api/subjects-api';
 
 const SectionLab = styled.div`
     display: flex;
@@ -84,6 +85,8 @@ export default function PersonalStud(){
         faculty: ""
     });
 
+    const [subjectsInfo, setSubjectsInfo] = useState([]);
+
     useEffect(() => {
         getUserData()
             .then(response => {
@@ -99,6 +102,21 @@ export default function PersonalStud(){
             .catch(error => {
                 console.error(error.message);
             });
+        
+        getSubjects()
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch');
+                }
+            })
+            .then(data => {
+                setSubjectsInfo(data);
+            })
+            .catch(error => {
+                console.error(error.message);
+            });
     }, []);
 
     return (
@@ -106,42 +124,35 @@ export default function PersonalStud(){
             <SectionLab>
                 <RowBlocks>
                         <List>
-                            <Text content="ФИО студента:"/>
-                            <Text content={studentInfo.username}/>
+                            <Text>ФИО студента:</Text>
+                            <Text>{studentInfo.username}</Text>
                         </List>
                         <List>
-                            <Text content="Номер группы:"/>
-                            <Text content={studentInfo.studygroup}/>
+                            <Text>Номер группы:</Text>
+                            <Text>{studentInfo.studygroup}</Text>
                         </List>
                         <List>
-                            <Text content="Форма обучения:"/>
-                            <Text content={studentInfo.form_education}/>
+                            <Text>Форма обучения:</Text>
+                            <Text>{studentInfo.form_education}</Text>
                         </List>
                         <List>
-                            <Text content="Направление обучения:"/>
-                            <Text content={studentInfo.faculty}/>
+                            <Text>Направление обучения:</Text>
+                            <Text>{studentInfo.faculty}</Text>
                         </List>
                 </RowBlocks>
                 <RowBlocks>
                     <BigList>
-                        <Text>
-                            Дисциплины:
-                        </Text>
+                        <Text> Дисциплины: </Text>
+                        {subjectsInfo.map((item) =>
                         <ListSubject>
-                            <Text>
-                                Предмет
-                            </Text>
+                            <Text> {item.name} </Text>
                             <Score>
-                                <Text>
-                                    5/10
-                                </Text>
+                                <Text> {item.score} </Text>
                             </Score>
                             <Button>
-                                <Text>
-                                    Перейти
-                                </Text>
+                                <Text> Перейти </Text>
                             </Button>
-                        </ListSubject>
+                        </ListSubject>)}
                     </BigList>
                 </RowBlocks>
             </SectionLab>
