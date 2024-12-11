@@ -74,7 +74,7 @@ const Button = styled.div`
     margin-left: 20px;
 `
 export default function PersonalStud(){
-    const [studentInfo, setStudentInfo] = useState<UserData>({
+    const [studentInfo, setStudentInfo] = useState({
         username: "",
         password: "",
         roletype : "",
