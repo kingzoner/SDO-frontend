@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import React, { useState, useEffect } from "react";
-import UserData from ".models/UserDataModel.tsx";
 
 const SectionLab = styled.div`
     display: flex;
@@ -113,40 +112,32 @@ export default function PersonalStud(){
             <SectionLab>
                 <RowBlocks>
                         <List>
-                            <Text content="ФИО студента:"/>
-                            <Text content={studentInfo.username}/>
+                            <Text>ФИО студента:</Text>
+                            <Text>{studentInfo.username}</Text>
                         </List>
                         <List>
-                            <Text content="Номер группы:"/>
-                            <Text content={studentInfo.studygroup}/>
+                            <Text>Номер группы:</Text>
+                            <Text>{studentInfo.studygroup}</Text>
                         </List>
                         <List>
-                            <Text content="Форма обучения:"/>
-                            <Text content={studentInfo.form_education}/>
+                            <Text>Форма обучения:</Text>
+                            <Text>{studentInfo.form_education}</Text>
                         </List>
                         <List>
-                            <Text content="Направление обучения:"/>
-                            <Text content={studentInfo.faculty}/>
+                            <Text>Направление обучения:</Text>
+                            <Text>{studentInfo.faculty}</Text>
                         </List>
                 </RowBlocks>
                 <RowBlocks>
                     <BigList>
-                        <Text>
-                            Дисциплины:
-                        </Text>
+                        <Text> Дисциплины: </Text>
                         <ListSubject>
-                            <Text>
-                                Предмет
-                            </Text>
+                            <Text> Предмет </Text>
                             <Score>
-                                <Text>
-                                    5/10
-                                </Text>
+                                <Text> 5/10 </Text>
                             </Score>
                             <Button>
-                                <Text>
-                                    Перейти
-                                </Text>
+                                <Text> Перейти </Text>
                             </Button>
                         </ListSubject>
                     </BigList>
