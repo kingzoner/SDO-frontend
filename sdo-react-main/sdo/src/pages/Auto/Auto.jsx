@@ -63,15 +63,8 @@ const Auto = () => {
 
   const handleSuccessfulLogin = () => {
     getUserStatus()
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error('Ошибка получения статуса пользователя');
-      }
-    })
-    .then(data => {
-      if (data.status === 'teacher') {
+    .then(res => {
+      if (res.data.status === 'teacher') {
         navigate('/PersonalTeacher');
       } else if (data.status === 'student') {
         navigate('/PersonalStud');
@@ -92,15 +85,8 @@ const Auto = () => {
     event.preventDefault();
 
     loginUser(username, password)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Не удалось войти');
-        }
-      })
-      .then(data => {
-        localStorage.setItem('access_token', data.access_token);
+      .then(res => {
+        localStorage.setItem('access_token', res.data.access_token);
         setPassword('');
         setError('');
         handleSuccessfulLogin();
