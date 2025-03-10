@@ -14,3 +14,4 @@ export const LABASTUD_ROUTE = "labaStud";
 export const ATTEMPTS_ROUTE = "attempts";
 export const CHECKLABORATORY_ROUTE = "checkLaboratory";
 export const GROUPS_ROUTE = "groups";
+export const DISCIPLINES_ROUTE = "disciplines";

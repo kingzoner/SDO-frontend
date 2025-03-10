@@ -16,6 +16,7 @@ import Attempts from "../../pages/Attempts/index";
 import ScrollToTop from "../../components/ScrollToTop";
 import CheckLaboratory from "../../pages/CheckLaboratory/CheckLaboratory";
 import Groups from "../../pages/Groups/Groups";
+import Disciplines from "../../pages/Disciplines/Disciplines";
 const MainRouter = () => {
   return (
     <>
@@ -37,6 +38,7 @@ const MainRouter = () => {
         <Route path="registration" element={<Registration />} />
         <Route path="/checkLaboratory" element={<CheckLaboratory />} />
         <Route path="/groups" element={<Groups />} />
+        <Route path="/disciplines" element={<Disciplines />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </>

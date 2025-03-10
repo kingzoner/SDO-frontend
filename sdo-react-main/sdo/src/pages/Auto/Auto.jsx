@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getUserStatus } from '../../api/user-api'
-import { loginUser } from '../../api/auth-api';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { getUserStatus } from "../../api/user-api";
+import { loginUser } from "../../api/auth-api";
 
 const Section = styled.div`
   display: flex;
@@ -19,7 +18,7 @@ const SectionHeading = styled.h1`
   font-size: 29px;
   line-height: 35px;
   color: #252525;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
 `;
 
 const Form = styled.form`
@@ -33,20 +32,28 @@ const Form = styled.form`
     height: 35px;
     font-size: 16px;
     color: #252525;
-    font-family: 'Montserrat';
+    font-family: "Montserrat";
     outline: none;
   }
 `;
 
+const ButtonsGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 458px;
+`;
+
 const Button = styled.button`
   height: 40px;
+  width: 100%;
   cursor: pointer;
   border-radius: 6px;
   border-style: none;
   background-color: #c8d5f6;
   font-size: 15px;
   color: #252525;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
 
   &:hover {
     background-color: #dde5f9;
@@ -56,42 +63,41 @@ const Button = styled.button`
 `;
 
 const Auto = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSuccessfulLogin = () => {
     getUserStatus()
-    .then(res => {
-      if (res.data.status === 'teacher') {
-        navigate('/PersonalTeacher');
-      } else if (res.data.status === 'student') {
-        navigate('/PersonalStud');
-      } else {
-        throw new Error('Неизвестный статус пользователя');
-      }
-    })
-    .catch(error => {
-      setError(error.message);
-    });
+      .then((res) => {
+        if (res.data.status === "teacher") {
+          navigate("/PersonalTeacher");
+        } else if (res.data.status === "student") {
+          navigate("/PersonalStud");
+        } else {
+          throw new Error("Неизвестный статус пользователя");
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value); 
+    setUsername(e.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     loginUser(username, password)
-      .then(res => {
-        localStorage.setItem('access_token', res.data.access_token);
-        setPassword('');
-        setError('');
+      .then((res) => {
+        localStorage.setItem("access_token", res.data.access_token);
+        setPassword("");
+        setError("");
         handleSuccessfulLogin();
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error.message);
       });
   };
@@ -99,37 +105,39 @@ const Auto = () => {
   return (
     <>
       <Section>
-        <>
-          <SectionHeading>
-            Войдите в личный кабинет
-          </SectionHeading>
-          <Form
-            onSubmit={handleSubmit}
-            method='post'
-            action='#'
-          >
-            <input
-              type="text"
-              placeholder=" Ваше имя"
-              onChange={handleUsernameChange}
-              name='username'
-              className='section__login-formInput'
-            />
-            <input
-              type="password"
-              placeholder=" Пароль"
-              name='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className='section__login-formInput'
-            />
-            <Button type="submit" className='section__login-button'>Войти</Button>
-          </Form>
-          {error && <SectionHeading>{error}</SectionHeading>}
-        </>
+        <SectionHeading>Войдите в личный кабинет</SectionHeading>
+        <Form onSubmit={handleSubmit} method="post">
+          <input
+            type="text"
+            placeholder="Ваше имя"
+            onChange={handleUsernameChange}
+            name="username"
+            className="section__login-formInput"
+          />
+          <input
+            type="password"
+            placeholder="Пароль"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="section__login-formInput"
+          />
+
+          <ButtonsGroup>
+            <Button type="submit" className="section__login-button">
+              Войти
+            </Button>
+
+            <Button type="button" onClick={() => navigate("/registration")}>
+              Регистрация
+            </Button>
+          </ButtonsGroup>
+        </Form>
+
+        {error && <SectionHeading>{error}</SectionHeading>}
       </Section>
     </>
   );
-}
+};
 
 export default Auto;
