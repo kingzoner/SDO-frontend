@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import FileUploader from './FileUploader';
 import base64 from 'base-64';
-import { uploadByTaskId } from '../../api/file-api';
+import { uploadByTaskId, testingTask } from '../../api/file-api';
 
 const Container = styled.div`
   display: flex;
@@ -125,7 +125,9 @@ const LabaStud = () => {
             String.fromCharCode(...new Uint8Array(reader.result))
           );
           uploadByTaskId(taskId, encodedFile)
-            .then(() => {})
+            .then(() => {
+                testingTask(taskId);
+              })
             .catch((error) => {
               console.error('Ошибка:', error);
             });
