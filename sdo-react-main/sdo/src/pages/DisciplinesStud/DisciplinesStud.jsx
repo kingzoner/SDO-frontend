@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import LabItem from "./components/LabItem";
+import { getTasks } from '../../api/subjects-api';
 
 const PageContainer = styled.div`
   background-color: #fff;
@@ -75,15 +76,18 @@ const LabsContainer = styled.div`
 `;
 
 export default function DisciplinesStud() {
-    const labs = [
-      { id: 1, name: "Лабораторная №1", grade: "зачетно" },
-      { id: 2, name: "Лабораторная №2", grade: "незачетно" },
-      { id: 3, name: "Лабораторная №3", grade: "зачетно" },
-      { id: 4, name: "Лабораторная №4", grade: "на проверке" },
-      { id: 5, name: "Лабораторная №5", grade: "на проверке" },
-      { id: 6, name: "Лабораторная №6", grade: "на проверке" },
-    ];
+    const [labsInfo, setlabsInfo] = useState([]);
   
+    useEffect(() => {
+      getTasks()
+        .then(res => {
+          setlabsInfo(res.data);
+        })
+        .catch(error => {
+            console.error(error.message);
+        });
+    }, []);
+
     return (
       <PageContainer>
         <ContentWrapper>
@@ -98,8 +102,8 @@ export default function DisciplinesStud() {
               <StatBox>Текущая оценка: 87%</StatBox>
             </StatsRow>
             <LabsContainer>
-              {labs.map((lab) => (
-                <LabItem key={lab.id} name={lab.name} grade={lab.grade} />
+              {labsInfo.map((lab) => (
+                <LabItem key={lab.id} name={lab.name} grade={lab.status} />
               ))}
             </LabsContainer>
           </GreenSection>

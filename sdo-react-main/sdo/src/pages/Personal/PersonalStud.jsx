@@ -2,6 +2,7 @@ import styled from "styled-components"
 import React, { useState, useEffect } from "react";
 import { getUserData } from '../../api/user-api';
 import { getSubjects } from '../../api/subjects-api';
+import { useNavigate } from "react-router-dom";
 
 const SectionLab = styled.div`
     display: flex;
@@ -76,6 +77,8 @@ const Button = styled.div`
 `
 
 export default function PersonalStud(){
+    const navigate = useNavigate();
+
     const [studentInfo, setStudentInfo] = useState({
         username: "",
         password: "",
@@ -135,7 +138,10 @@ export default function PersonalStud(){
                             <Score>
                                 <Text> {item.score} </Text>
                             </Score>
-                            <Button>
+                            <Button onClick={() => {
+                                localStorage.setItem('subject', item.id)
+                                navigate('/disciplinesStud')
+                            }}>
                                 <Text> Перейти </Text>
                             </Button>
                         </ListSubject>)}
