@@ -76,12 +76,22 @@ const ChangeButton = styled.button`
 `;
 
 const Groups = () => {
-  const groupNumbers = ["221-375", "221-376", "221-377"];
+  const [groupNumbers, setGroups] = useState([]);
+  
+  useEffect(() => {
+    getFacultyGroups()
+      .then(res => {
+        setGroups(res.data);
+      })
+      .catch(error => {
+        console.error(error.message);
+      });
+  }, []);
 
   return (
     <GroupsContainer>
-      {groupNumbers.map((number, index) => (
-        <GroupWindow key={index} groupNumber={number} />
+      {groupNumbers.map((group) => (
+        <GroupWindow key={group.group_id} groupNumber={group.group_id} />
       ))}
     </GroupsContainer>
   );
