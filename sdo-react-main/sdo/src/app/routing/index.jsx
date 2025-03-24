@@ -18,6 +18,7 @@ import CheckLaboratory from "../../pages/CheckLaboratory/CheckLaboratory";
 import Groups from "../../pages/Groups/Groups";
 import Disciplines from "../../pages/Disciplines/Disciplines";
 import DisciplinesStud from "../../pages/DisciplinesStud/DisciplinesStud"
+import TestLabs from "../../pages/TestLabs/TestLabs";
 const MainRouter = () => {
   return (
     <>
@@ -42,6 +43,7 @@ const MainRouter = () => {
         <Route path="/disciplines" element={<Disciplines />} />
         <Route path="*" element={<Navigate to="/login" />} />
         <Route path="/disciplinesStud" element={<DisciplinesStud />} />
+        <Route path="/testLabs" element={<TestLabs />} />
       </Routes>
     </>
   );
