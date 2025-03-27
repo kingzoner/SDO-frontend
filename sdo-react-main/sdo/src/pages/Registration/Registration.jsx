@@ -54,7 +54,7 @@ const Registration = () => {
   const [newUserState, setNewUser] = useState({
       username: "",
       password: "",
-      group_name: 0,
+      group_name: "",
     }
   );
 
@@ -102,8 +102,8 @@ const Registration = () => {
           <input 
             type="text"
             placeholder=" Group"
-            name='somepassword'
-            value={newUserState.numberGroup}
+            name='group_name'
+            value={newUserState.group_name}
             className='section__login-formInput'
             onChange={(e) => setNewUser({...newUserState, group_name: e.target.value})}
           />
