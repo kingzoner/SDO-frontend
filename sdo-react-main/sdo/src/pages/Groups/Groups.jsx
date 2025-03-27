@@ -1,7 +1,7 @@
-import React from "react";
 import styled from "styled-components";
-
+import React, { useState, useEffect } from 'react';
 import GroupWindow from "./components/GroupWindow.jsx";
+import { getFacultyGroups } from '../../api/teachers-api';
 
 const GroupsContainer = styled.div`
   display: flex;

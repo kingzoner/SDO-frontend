@@ -20,30 +20,32 @@ import Disciplines from "../../pages/Disciplines/Disciplines";
 import DisciplinesStud from "../../pages/DisciplinesStud/DisciplinesStud"
 import TestLabs from "../../pages/TestLabs/TestLabs";
 const MainRouter = () => {
+  const tokenExist = localStorage.getItem('access_token') == null
   return (
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="login" element={<Auto />} />
-        <Route path="/Laboratory" element={<Laboratory />} />
-        <Route path="/editingLaboratoryPrep" element={<PrepodRedLab />} />
-        <Route path="/LaboratoryAdd" element={<LaboratoryAdd />} />
-        <Route path="/PersonalTeacher" element={<PersonalTeacher />} />
-        <Route path="/StudLaboratory" element={<StudLaboratory />} />
-        <Route path="/PersonalStud" element={<PersonalStud />} />
-        {/* <Route path="/mainStud" element={<MainStud />} />
-        <Route path="/mainTeacher" element={<MainTeacher />} /> */}
-        <Route path="registration" element={<Registration />} />
-        <Route path="/labaStud/:id" element={<LabaStud />} />
-        <Route path="/attempts" element={<Attempts />} />
-        <Route path="registration" element={<Registration />} />
-        <Route path="/checkLaboratory" element={<CheckLaboratory />} />
-        <Route path="/groups" element={<Groups />} />
-        <Route path="/disciplines" element={<Disciplines />} />
-        <Route path="*" element={<Navigate to="/login" />} />
-        <Route path="/disciplinesStud" element={<DisciplinesStud />} />
-        <Route path="/testLabs" element={<TestLabs />} />
+        {/*Публичные*/}
+        <Route path="/login" element={<Auto />} />
+        <Route path="/registration" element={<Registration />} />
+
+        {/*Закрытые*/}
+        <Route path="/" element={tokenExist ? <Main /> : <Navigate to="/login" />} />
+        <Route path="/Laboratory" element={tokenExist ? <Laboratory /> : <Navigate to="/login" />} />
+        <Route path="/editingLaboratoryPrep" element={tokenExist ? <PrepodRedLab /> : <Navigate to="/login" />} />
+        <Route path="/LaboratoryAdd" element={tokenExist ? <LaboratoryAdd /> : <Navigate to="/login" />} />
+        <Route path="/PersonalTeacher" element={tokenExist ? <PersonalTeacher /> : <Navigate to="/login" />} />
+        <Route path="/StudLaboratory" element={tokenExist ? <StudLaboratory /> : <Navigate to="/login" />} />
+        <Route path="/PersonalStud" element={tokenExist ? <PersonalStud /> : <Navigate to="/login" />} />
+        <Route path="/labaStud/:id" element={tokenExist ? <LabaStud /> : <Navigate to="/login" />} />
+        <Route path="/attempts" element={tokenExist ? <Attempts /> : <Navigate to="/login" />} />
+        <Route path="/checkLaboratory" element={tokenExist ? <CheckLaboratory /> : <Navigate to="/login" />} />
+        <Route path="/groups" element={tokenExist ? <Groups /> : <Navigate to="/login" />} />
+        <Route path="/disciplines" element={tokenExist ? <Disciplines /> : <Navigate to="/login" />} />
+        <Route path="/disciplinesStud" element={tokenExist ? <DisciplinesStud /> : <Navigate to="/login" />} />
+        <Route path="/testLabs" element={tokenExist ? <TestLabs /> : <Navigate to="/login" />} />
+
+        <Route path="*" element={tokenExist ?<Main /> : <Navigate to="/login" />} />
       </Routes>
     </>
   );
