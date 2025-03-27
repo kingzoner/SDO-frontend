@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/style.css";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 import { registerUser } from '../../api/auth-api';
 
@@ -51,12 +52,24 @@ const Button = styled.button`
 }
 `
 const Registration = () => {
+  const navigate = useNavigate();
+  
   const [newUserState, setNewUser] = useState({
       username: "",
       password: "",
       group_name: "",
     }
   );
+
+  const handleSuccessfulLogin = (role) => {
+      if (role === "teacher") {
+        navigate("/PersonalTeacher");
+      } else if (role === "student") {
+        navigate("/PersonalStud");
+      } else {
+        throw new Error("Неизвестный статус пользователя");
+      }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +78,7 @@ const Registration = () => {
         .then(res => {
           localStorage.setItem('access_token', res.data.access_token);
           localStorage.setItem('role', res.data.role);
+          handleSuccessfulLogin();
         })
         .catch(error => {
             console.error(error.message);
