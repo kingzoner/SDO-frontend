@@ -61,7 +61,7 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    registerUser()
+    registerUser(newUserState)
         .then(res => {
           localStorage.setItem('access_token', res.data.access_token);
           localStorage.setItem('role', res.data.role);
