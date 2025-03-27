@@ -20,7 +20,7 @@ import Disciplines from "../../pages/Disciplines/Disciplines";
 import DisciplinesStud from "../../pages/DisciplinesStud/DisciplinesStud"
 import TestLabs from "../../pages/TestLabs/TestLabs";
 const MainRouter = () => {
-  const tokenExist = localStorage.getItem('access_token') == null
+  const tokenExist = localStorage.getItem('access_token') != null
   return (
     <>
       <ScrollToTop />
@@ -28,9 +28,9 @@ const MainRouter = () => {
         {/*Публичные*/}
         <Route path="/login" element={<Auto />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="*" element={<Main />} />
 
         {/*Закрытые*/}
-        <Route path="/" element={tokenExist ? <Main /> : <Navigate to="/login" />} />
         <Route path="/Laboratory" element={tokenExist ? <Laboratory /> : <Navigate to="/login" />} />
         <Route path="/editingLaboratoryPrep" element={tokenExist ? <PrepodRedLab /> : <Navigate to="/login" />} />
         <Route path="/LaboratoryAdd" element={tokenExist ? <LaboratoryAdd /> : <Navigate to="/login" />} />
@@ -44,8 +44,6 @@ const MainRouter = () => {
         <Route path="/disciplines" element={tokenExist ? <Disciplines /> : <Navigate to="/login" />} />
         <Route path="/disciplinesStud" element={tokenExist ? <DisciplinesStud /> : <Navigate to="/login" />} />
         <Route path="/testLabs" element={tokenExist ? <TestLabs /> : <Navigate to="/login" />} />
-
-        <Route path="*" element={tokenExist ?<Main /> : <Navigate to="/login" />} />
       </Routes>
     </>
   );
