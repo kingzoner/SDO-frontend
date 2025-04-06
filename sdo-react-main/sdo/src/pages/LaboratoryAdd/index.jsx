@@ -340,7 +340,7 @@ const LaboratoryAdd = () => {
     }
     const sendDataToServer = async (data) => {
       try {
-        const response = await axios.post("http://0.0.0.0:8002/newtask", data);
+        const response = await axios.post("http://0.0.0.0:8000/newtask", data);
         console.log("Ответ от сервера:", response.data);
         setResponseMessage("Лабораторная работа успешно добавлена!");
       } catch (error) {

@@ -1,11 +1,9 @@
 import "./style.css";
 import logo from "../../img/logo.svg";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Bread from "../BreadCrumbs";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
-// import { LABORATORY_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE , STUDLABORATORY_ROUTE } from '../../app/routing/route';
 
 const HeaderStyle = styled.header`
   width: 100%;
@@ -64,20 +62,24 @@ const ButtonEx = styled.button`
 `;
 
 const Header = ({ setIsLoggedIn, isLoggedIn, isButtonClicked }) => {
-  const getUserFromAuthentication = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8040/login");
-      console.log("Информация о пользователе:", response.data);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
+  // State to store the user's role
+  const [userRole, setUserRole] = useState(null);
+
+  // Fetch user role from localStorage when the component mounts or when isLoggedIn changes
+  useEffect(() => {
+    const role = localStorage.getItem("status"); // Fetch the role from localStorage
+    setUserRole(role); // Update the userRole state
+    console.log("Updated role:", role); // Log the role for debugging
+  }, [isLoggedIn]); // Add isLoggedIn as a dependency to re-run the effect when it changes
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem("status"); // Clear the role from localStorage on logout
   };
+
+  // Determine the correct routes based on the user's role
+  const personalCabinetRoute = userRole === "student" ? "/PersonalStud" : "/PersonalTeacher";
+  const laboratoryRoute = userRole === "student" ? "/StudLaboratory" : "/laboratory";
 
   return (
     <>
@@ -89,22 +91,14 @@ const Header = ({ setIsLoggedIn, isLoggedIn, isButtonClicked }) => {
             </Link>
           </div>
           <Nav>
-            <Link to="/StudLaboratory" className="header__nav-lr">
+            {/* Dynamically set the laboratory route based on user role */}
+            <Link to={laboratoryRoute} className="header__nav-lr">
               Лабораторные работы
             </Link>
-            <Link to="/PersonalTeacher" className="header__nav-lr">
+            {/* Dynamically set the personal cabinet route based on user role */}
+            <Link to={personalCabinetRoute} className="header__nav-lr">
               Личный кабинет
             </Link>
-
-            {/*
-                            // Сохраняем логику регистрации для дальнейшего использования
-                            // Если пользователь НЕ авторизован, тогда отображать кнопку регистрации:
-                            // {!isLoggedIn && (
-                            //     <Link to="/registration" className="header__nav-lr">
-                            //         Регистрация
-                            //     </Link>
-                            // )}
-                        */}
 
             {isLoggedIn && <ButtonEx onClick={handleLogout}>Выйти</ButtonEx>}
           </Nav>

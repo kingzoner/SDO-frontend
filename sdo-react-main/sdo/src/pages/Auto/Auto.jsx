@@ -78,14 +78,12 @@ const Auto = () => {
         } else {
           throw new Error("Неизвестный статус пользователя");
         }
+        localStorage.setItem("status", res.data.status);
+        // setUserRole
       })
       .catch((error) => {
         setError(error.message);
       });
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -103,40 +101,33 @@ const Auto = () => {
   };
 
   return (
-    <>
-      <Section>
-        <SectionHeading>Войдите в личный кабинет</SectionHeading>
-        <Form onSubmit={handleSubmit} method="post">
-          <input
-            type="text"
-            placeholder="Ваше имя"
-            onChange={handleUsernameChange}
-            name="username"
-            className="section__login-formInput"
-          />
-          <input
-            type="password"
-            placeholder="Пароль"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="section__login-formInput"
-          />
-
-          <ButtonsGroup>
-            <Button type="submit" className="section__login-button">
-              Войти
-            </Button>
-
-            <Button type="button" onClick={() => navigate("/registration")}>
-              Регистрация
-            </Button>
-          </ButtonsGroup>
-        </Form>
-
-        {error && <SectionHeading>{error}</SectionHeading>}
-      </Section>
-    </>
+    <Section>
+      <SectionHeading>Войдите в личный кабинет</SectionHeading>
+      <Form onSubmit={handleSubmit} method="post">
+        <input
+          type="text"
+          placeholder="Ваше имя"
+          onChange={(e) => setUsername(e.target.value)}
+          name="username"
+          className="section__login-formInput"
+        />
+        <input
+          type="password"
+          placeholder="Пароль"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="section__login-formInput"
+        />
+        <ButtonsGroup>
+          <Button type="submit">Войти</Button>
+          <Button type="button" onClick={() => navigate("/registration")}>
+            Регистрация
+          </Button>
+        </ButtonsGroup>
+      </Form>
+      {error && <SectionHeading>{error}</SectionHeading>}
+    </Section>
   );
 };
 

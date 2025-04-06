@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectUsername } from "../Auto/Slice/authSlice";
+import { useNavigate } from "react-router-dom";
+import { getUserData } from "../../api/user-api";
+import { getSubjects } from "../../api/subjects-api";
+// Предполагаемые API-методы, добавь их в соответствующие файлы
+import { getLabs, getGroups } from "../../api/teacher-api";
+
 const SectionLab = styled.div`
   display: flex;
   gap: 10px;
@@ -12,48 +15,45 @@ const SectionLab = styled.div`
 
 const List = styled.li`
   width: 320px;
-  height: auto;
-  background-color: #becbee;
+  height: 100px;
+  background-color: #d5def6;
   border-radius: 7px;
   list-style-type: none;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 10px 20px;
-  gap: 5px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BigList = styled.li`
   width: ${({ $Block }) => ($Block ? "673px" : "673px")};
-  height: ${({ $Block }) => ($Block ? "68px" : "68px")};
+  height: ${({ $Block }) => ($Block ? "auto" : "430px")}; /* Динамическая высота для контента */
   background-color: #e2edd0;
   border-radius: 7px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   list-style-type: none;
-  justify-content: space-between;
-  padding: 0 20px;
-  margin-left: 50px;
+  justify-content: space-around;
+  padding: 20px;
 `;
 
-const BigListText = styled.h1`
-  font-family: "Montserrat";
-  font-size: 18px;
-  color: #000;
-  text-align: left;
+const ListItem = styled.li`
+  width: 520px;
+  height: 50px;
+  background-color: #fff;
+  border-radius: 7px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
 `;
 
 const Text = styled.p`
   font-family: "Montserrat";
   font-size: 16px;
-  margin: 0 0 10px;
-`;
-
-const TextMain = styled.h1`
-  font-family: "Montserrat";
-  font-size: 16px;
-  margin: 0 0 10px;
   font-weight: 600;
 `;
 
@@ -66,65 +66,65 @@ const RowBlocks = styled.div`
 `;
 
 const Button = styled.div`
-  width: 125px;
+  width: 100px;
   height: 40px;
   background-color: #c8d5f6;
   border-radius: 7px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: auto; /* Прижимает кнопку вправо */
-  .button__link {
-    color: white;
-    text-decoration: none;
-    font-family: "Montserrat";
-    font-size: 16px;
-  }
+  cursor: pointer;
 `;
 
 const PersonalTeacher = () => {
-  //const username = useSelector(state => state.auth.username);
+  const navigate = useNavigate();
+
+  const [teacherInfo, setTeacherInfo] = useState({
+    first_name: "",
+    last_name: "",
+    middle_name: "",
+  });
+
+  useEffect(() => {
+    // Загрузка данных преподавателя
+    getUserData()
+      .then((res) => {
+        setTeacherInfo(res.data);
+      })
+      .catch((error) => {
+        console.error("Ошибка загрузки данных преподавателя:", error.message);
+      });
+
+      // загрузка остальных данных
+
+  }, []);
 
   return (
     <SectionLab>
       <RowBlocks>
         <List>
           <Text>ФИО преподавателя:</Text>
-          <TextMain>Артемов Артем Артемович</TextMain>
+          <Text>
+            {teacherInfo.first_name} {teacherInfo.last_name}{" "}
+            {teacherInfo.middle_name}
+          </Text>
         </List>
         <List>
-          <Text>Преподаваемая дисциплина:</Text>
-          <TextMain>Информационные технологии</TextMain>
+          <Text>Факультет:</Text>
         </List>
         <List>
           <Text>Группы:</Text>
-          <TextMain>218-221, 218-222, 221-734, 221-735</TextMain>
         </List>
       </RowBlocks>
       <RowBlocks>
         <BigList>
-          <BigListText>Дисциплины</BigListText>
-          <Button>
-            <Link to="/Disciplines" className="button__link">
-              Перейти
-            </Link>
-          </Button>
+          <Text>Дисциплины:</Text>
         </BigList>
         <BigList>
-          <BigListText>Список лабораторных работ</BigListText>
-          <Button>
-            <Link to="/Laboratory" className="button__link">
-              Перейти
-            </Link>
-          </Button>
+          <Text>Список лабораторных работ:</Text>
         </BigList>
         <BigList>
-          <BigListText>Список обучающихся студентов</BigListText>
-          <Button>
-            <Link to="/groups" className="button__link">
-              Перейти
-            </Link>
-          </Button>
+          <Text>Список групп:</Text>
         </BigList>
       </RowBlocks>
     </SectionLab>

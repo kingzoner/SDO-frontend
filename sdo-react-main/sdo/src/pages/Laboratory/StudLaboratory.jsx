@@ -207,7 +207,7 @@ const StudLaboratory = () => {
     }, []);
 
     useEffect(() => {
-        fetch('http://0.0.0.0:8002/tasks', {
+        fetch('http://0.0.0.0:8000/tasks', {
             method: 'GET',
             headers: {
                 'accept': 'application/json'

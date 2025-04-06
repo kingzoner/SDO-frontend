@@ -37,7 +37,7 @@ const MainRouter = () => {
         <Route path="/PersonalTeacher" element={tokenExist ? <PersonalTeacher /> : <Navigate to="/login" />} />
         <Route path="/StudLaboratory" element={tokenExist ? <StudLaboratory /> : <Navigate to="/login" />} />
         <Route path="/PersonalStud" element={tokenExist ? <PersonalStud /> : <Navigate to="/login" />} />
-        <Route path="/labaStud/:id" element={tokenExist ? <LabaStud /> : <Navigate to="/login" />} />
+        <Route path="/LabaStud/:taskId" element={tokenExist ? <LabaStud /> : <Navigate to="/login" />} />
         <Route path="/attempts" element={tokenExist ? <Attempts /> : <Navigate to="/login" />} />
         <Route path="/checkLaboratory" element={tokenExist ? <CheckLaboratory /> : <Navigate to="/login" />} />
         <Route path="/groups" element={tokenExist ? <Groups /> : <Navigate to="/login" />} />

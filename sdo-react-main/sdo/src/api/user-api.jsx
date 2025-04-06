@@ -1,6 +1,7 @@
 import { appApiIns } from "./app-api";
 
 export function getUserStatus(){
+    console.log(appApiIns.headers)
     return appApiIns.get('user_status');
 }
 

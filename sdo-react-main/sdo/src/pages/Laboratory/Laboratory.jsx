@@ -226,7 +226,7 @@ const Laboratory = () => {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8002/tasks", {
+    fetch("http://127.0.0.1:8000/tasks", {
       method: "GET",
 
       headers: {

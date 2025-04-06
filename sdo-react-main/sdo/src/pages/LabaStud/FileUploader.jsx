@@ -37,42 +37,13 @@ const Span = styled.span`
   transition: background-color 0.3s ease;
 `;
 
-const ProgressContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 1100px;
-  margin-top: 20px;
-`;
-
-const ProgressBar = styled.div`
-  flex-grow: 1;
-  height: 30px;
-  background-color: #fff;
-  border-radius: 5px;
-  margin-right: 10px;
-`;
-
-const ProgressFill = styled.div`
-  height: 100%;
-  width: ${({ progress }) => `${progress}%`};
-  background-color: #76c7c0;
-  border-radius: 5px;
-  transition: width 0.3s ease;
-`;
-
-const ProgressText = styled.span`
-  font-size: 16px;
-`;
-
-// Main file uploader component
 const FileUploader = ({ file, setFile }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   const handleChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
+      e.target.value = null; // Сбрасываем значение input, чтобы можно было выбрать тот же файл снова
     }
   };
 
@@ -107,15 +78,6 @@ const FileUploader = ({ file, setFile }) => {
         </Span>
         <Inpt id="fileInput" type="file" onChange={handleChange} />
       </Label>
-
-      {file && (
-        <ProgressContainer>
-          <ProgressBar>
-            <ProgressFill progress={progress} />
-          </ProgressBar>
-          <ProgressText>{progress}%</ProgressText>
-        </ProgressContainer>
-      )}
     </Form>
   );
 };
