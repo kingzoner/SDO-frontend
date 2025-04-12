@@ -62,24 +62,45 @@ const Button = styled.button`
   }
 `;
 
-const Auto = () => {
+const Auto = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // const handleSuccessfulLogin = () => {
+  //   getUserStatus()
+  //     .then((res) => {
+  //       if (res.data.status === "teacher") {
+  //         navigate("/PersonalTeacher");
+  //       } else if (res.data.status === "student") {
+  //         navigate("/PersonalStud");
+  //       } else {
+  //         throw new Error("Неизвестный статус пользователя");
+  //       }
+  //       localStorage.setItem("status", res.data.status);
+  //       // setUserRole
+  //     })
+  //     .catch((error) => {
+  //       setError(error.message);
+  //     });
+  // };
+
   const handleSuccessfulLogin = () => {
     getUserStatus()
       .then((res) => {
-        if (res.data.status === "teacher") {
+        const status = res.data.status; // teacher или student
+  
+        localStorage.setItem("status", status);
+        localStorage.setItem("role", status); // ← ВАЖНО: ДОБАВЬ ЭТУ СТРОКУ
+  
+        if (status === "teacher") {
           navigate("/PersonalTeacher");
-        } else if (res.data.status === "student") {
+        } else if (status === "student") {
           navigate("/PersonalStud");
         } else {
           throw new Error("Неизвестный статус пользователя");
         }
-        localStorage.setItem("status", res.data.status);
-        // setUserRole
       })
       .catch((error) => {
         setError(error.message);
@@ -92,6 +113,7 @@ const Auto = () => {
       .then((res) => {
         localStorage.setItem("access_token", res.data.access_token);
         setPassword("");
+        setIsLoggedIn(true);
         setError("");
         handleSuccessfulLogin();
       })

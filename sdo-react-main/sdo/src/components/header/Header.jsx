@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Bread from "../BreadCrumbs";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const HeaderStyle = styled.header`
   width: 100%;
@@ -46,24 +47,32 @@ const Nav = styled.nav`
 `;
 
 const ButtonEx = styled.button`
-  margin-right: 40px;
-  color: #c8d5f6;
-  text-decoration: none;
-  font-size: 16px;
-  font-family: "Montserrat";
-  line-height: 27px;
-  background-color: #fff;
-  width: 232px;
-  height: 36px;
-  border-radius: 7px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    margin-right: 40px;
+    color: #415588;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "Montserrat";
+    line-height: 27px;
+    background-color: #fff;
+    width: 232px;
+    height: 36px;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+
+    .header__nav-lr:hover {
+    color: #fff;
+    background-color: #dde5f9;
+    transition: 0.3s;
+  }
 `;
 
 const Header = ({ setIsLoggedIn, isLoggedIn, isButtonClicked }) => {
   // State to store the user's role
   const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
 
   // Fetch user role from localStorage when the component mounts or when isLoggedIn changes
   useEffect(() => {
@@ -73,8 +82,17 @@ const Header = ({ setIsLoggedIn, isLoggedIn, isButtonClicked }) => {
   }, [isLoggedIn]); // Add isLoggedIn as a dependency to re-run the effect when it changes
 
   const handleLogout = () => {
+    // setIsLoggedIn(false);
+    // localStorage.removeItem("status"); // Clear the role from localStorage on logout
+
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("status");
+
+    // Обновляем состояние
     setIsLoggedIn(false);
-    localStorage.removeItem("status"); // Clear the role from localStorage on logout
+
+    // Перенаправляем на главную
+    navigate("/");
   };
 
   // Determine the correct routes based on the user's role
@@ -100,7 +118,11 @@ const Header = ({ setIsLoggedIn, isLoggedIn, isButtonClicked }) => {
               Личный кабинет
             </Link>
 
-            {isLoggedIn && <ButtonEx onClick={handleLogout}>Выйти</ButtonEx>}
+            {isLoggedIn && (
+            <ButtonEx onClick={handleLogout} className="header__nav-lr">
+              Выйти
+            </ButtonEx>
+            )}
           </Nav>
         </HeaderWrapper>
       </HeaderStyle>

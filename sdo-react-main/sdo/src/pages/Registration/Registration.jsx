@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/style.css";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 import { registerUser } from '../../api/auth-api';
 
@@ -58,17 +59,29 @@ const Registration = () => {
     }
   );
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     registerUser(newUserState)
-        .then(res => {
-          localStorage.setItem('access_token', res.data.access_token);
-          localStorage.setItem('role', res.data.role);
-        })
-        .catch(error => {
-            console.error(error.message);
-        });
+    .then(res => {
+      const token = res.data.access_token;
+      const role = res.data.status; // <--- ключевая замена
+  
+      localStorage.setItem('access_token', token);
+      localStorage.setItem('role', role);
+  
+      // Переход в зависимости от роли
+      if (role === 'student') {
+        navigate('/PersonalStud');
+      } else if (role === 'teacher') {
+        navigate('/PersonalTeacher');
+      }
+    })
+    .catch(error => {
+      console.error("Ошибка регистрации:", error.message);
+    });  
   };
 
   return (
