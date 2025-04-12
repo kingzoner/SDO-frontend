@@ -92,7 +92,7 @@ const Auto = ({ setIsLoggedIn }) => {
         const status = res.data.status; // teacher или student
   
         localStorage.setItem("status", status);
-        localStorage.setItem("role", status); // ← ВАЖНО: ДОБАВЬ ЭТУ СТРОКУ
+        localStorage.setItem("role", status);
   
         if (status === "teacher") {
           navigate("/PersonalTeacher");
