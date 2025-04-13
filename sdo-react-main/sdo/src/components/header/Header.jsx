@@ -70,21 +70,16 @@ const ButtonEx = styled.button`
 `;
 
 const Header = ({ setIsLoggedIn, isLoggedIn, isButtonClicked }) => {
-  // State to store the user's role
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch user role from localStorage when the component mounts or when isLoggedIn changes
   useEffect(() => {
-    const role = localStorage.getItem("status"); // Fetch the role from localStorage
-    setUserRole(role); // Update the userRole state
-    console.log("Updated role:", role); // Log the role for debugging
-  }, [isLoggedIn]); // Add isLoggedIn as a dependency to re-run the effect when it changes
+    const role = localStorage.getItem("status");
+    setUserRole(role);
+    console.log("Updated role:", role);
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
-    // setIsLoggedIn(false);
-    // localStorage.removeItem("status"); // Clear the role from localStorage on logout
-
     localStorage.removeItem("access_token");
     localStorage.removeItem("status");
 
@@ -95,7 +90,6 @@ const Header = ({ setIsLoggedIn, isLoggedIn, isButtonClicked }) => {
     navigate("/");
   };
 
-  // Determine the correct routes based on the user's role
   const personalCabinetRoute = userRole === "student" ? "/PersonalStud" : "/PersonalTeacher";
   const laboratoryRoute = userRole === "student" ? "/StudLaboratory" : "/laboratory";
 

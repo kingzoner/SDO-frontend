@@ -323,7 +323,7 @@ const LabaStud = () => {
       <HeaderContainer>
         <TitleText>{task.name}</TitleText>
         <StatusMarker status={task.status}>
-          {task.status === 'Success' ? 'Сдано' : 'Провалено'}
+          {task.status === 'Success' ? 'Сдано' : 'Не сдано'}
         </StatusMarker>
       </HeaderContainer>
 

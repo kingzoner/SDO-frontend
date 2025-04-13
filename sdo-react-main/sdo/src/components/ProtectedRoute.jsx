@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const token = localStorage.getItem('access_token');
-  const role = localStorage.getItem('role'); // "student" или "teacher"
+  const role = localStorage.getItem('role');
 
   if (!token) {
     return <Navigate to="/login" replace />;

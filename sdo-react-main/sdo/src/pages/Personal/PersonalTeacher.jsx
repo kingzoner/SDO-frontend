@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { getUserData } from "../../api/user-api";
-import { getSubjects } from "../../api/subjects-api";
-// Предполагаемые API-методы, добавь их в соответствующие файлы
 import { getLabs, getGroups } from "../../api/teacher-api";
 
 const SectionLab = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
   padding: 75px 0px 100px;
 `;
@@ -25,16 +23,40 @@ const List = styled.li`
   justify-content: center;
 `;
 
+const ListSubject = styled.div`
+  width: 100%;
+  max-width: 500px;
+  height: 40px;
+  padding: 10px 25px;
+  background-color: #fff;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
+const TextDiscipline = styled.p`
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  margin: 0;
+  text-align: center;
+  color: #000;
+`;
+
 const BigList = styled.li`
   width: 800px;
-  max-height: 100px;
-  background-color: #E6F4CF;
+  background-color: #e6f4cf;
   border-radius: 7px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  gap: 20px;
+  padding: 20px;
+  gap: 10px;
 `;
 
 const Text = styled.p`
@@ -53,18 +75,14 @@ const RowBlocks = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 0px 0px 20px;
 `;
 
-const Button = styled.div`
-  width: 100px;
-  height: 40px;
-  background-color: #c8d5f6;
-  border-radius: 7px;
+const GroupsContainer = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  cursor: pointer;
+  gap: 10px;
 `;
 
 const PersonalTeacher = () => {
@@ -74,10 +92,12 @@ const PersonalTeacher = () => {
     first_name: "",
     last_name: "",
     middle_name: "",
+    faculty: "",
   });
 
-  useEffect(() => {
+  const [groups, setGroups] = useState([]); // Initialize as empty array
 
+  useEffect(() => {
     getUserData()
       .then((res) => {
         setTeacherInfo(res.data);
@@ -86,7 +106,19 @@ const PersonalTeacher = () => {
         console.error("Ошибка загрузки данных преподавателя:", error.message);
       });
 
+    getGroups()
+      .then((res) => {
+        setGroups(res.data);
+      })
+      .catch((error) => {
+        console.error("Ошибка загрузки групп:", error.message);
+        setGroups([]);
+      });
   }, []);
+
+  const handleGroupClick = (groupName) => {
+    navigate(`/group/${groupName}/students`); // Navigate to students page
+  };
 
   return (
     <SectionLab>
@@ -100,9 +132,7 @@ const PersonalTeacher = () => {
         </List>
         <List>
           <Text>Факультет:</Text>
-        </List>
-        <List>
-          <Text>Группы:</Text>
+          <TextDisciplines>{teacherInfo.faculty}</TextDisciplines>
         </List>
       </RowBlocks>
       <RowBlocks>
@@ -114,6 +144,20 @@ const PersonalTeacher = () => {
         </BigList>
         <BigList>
           <Text>Список групп:</Text>
+          <GroupsContainer>
+            {groups.length > 0 ? (
+              groups.map((group) => (
+                <ListSubject
+                  key={group.id}
+                  onClick={() => handleGroupClick(group.name)} // Use group.name for navigation
+                >
+                  <TextDiscipline>{group.name}</TextDiscipline>
+                </ListSubject>
+              ))
+            ) : (
+              <Text>Группы не найдены</Text>
+            )}
+          </GroupsContainer>
         </BigList>
       </RowBlocks>
     </SectionLab>

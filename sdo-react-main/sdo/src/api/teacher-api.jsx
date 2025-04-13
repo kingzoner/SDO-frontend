@@ -5,5 +5,9 @@ export function getLabs() {
 }
 
 export function getGroups() {
-  return appApiIns.get("teacher/groups");
+  return appApiIns.get('api/teachers/groups');
+}
+
+export function getStudentsByGroup(groupId) {
+  return appApiIns.get(`api/teachers/groups/${groupId}/students`);
 }
