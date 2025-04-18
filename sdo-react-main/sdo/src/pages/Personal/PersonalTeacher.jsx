@@ -95,7 +95,7 @@ const PersonalTeacher = () => {
     faculty: "",
   });
 
-  const [groups, setGroups] = useState([]); // Initialize as empty array
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
     getUserData()
@@ -117,7 +117,7 @@ const PersonalTeacher = () => {
   }, []);
 
   const handleGroupClick = (groupName) => {
-    navigate(`/group/${groupName}/students`); // Navigate to students page
+    navigate(`/group/${groupName}/students`);
   };
 
   return (
@@ -149,7 +149,7 @@ const PersonalTeacher = () => {
               groups.map((group) => (
                 <ListSubject
                   key={group.id}
-                  onClick={() => handleGroupClick(group.name)} // Use group.name for navigation
+                  onClick={() => handleGroupClick(group.name)}
                 >
                   <TextDiscipline>{group.name}</TextDiscipline>
                 </ListSubject>
