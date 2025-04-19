@@ -111,14 +111,14 @@ const Auto = ({ setIsLoggedIn }) => {
     event.preventDefault();
     loginUser(username, password)
       .then((res) => {
-        localStorage.setItem("access_token", res.data.access_token);
-        setPassword("");
-        setIsLoggedIn(true);
-        setError("");
-        handleSuccessfulLogin();
+          localStorage.setItem("access_token", res.data.access_token);
+          setPassword("");
+          setIsLoggedIn(true);
+          setError("");
+          handleSuccessfulLogin();
       })
       .catch((error) => {
-        setError(error.message);
+        setError("Неверное имя пользователя или пароль");
       });
   };
 

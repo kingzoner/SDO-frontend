@@ -1,24 +1,3 @@
-// import React from "react";
-// import { BrowserRouter as Router } from "react-router-dom";
-// import Header from "./components/header/Header";
-// import MainRouter from "./app/routing";
-// import Footer from "./components/Footer/Footer";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <Router>
-//         <Header />
-//           <MainRouter />
-//         <Footer />
-//       </Router>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/header/Header";
@@ -26,12 +5,26 @@ import MainRouter from "./app/routing";
 import Footer from "./components/Footer/Footer";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("access_token")
+  );
 
-  // Проверка на токен при загрузке
   useEffect(() => {
+    // Проверка на токен при загрузке
     const token = localStorage.getItem("access_token");
-    setIsLoggedIn(!!token); // true если есть токен
+    setIsLoggedIn(!!token);
+
+    // Слушатель изменений в localStorage
+    const handleStorageChange = () => {
+      const token = localStorage.getItem("access_token");
+      setIsLoggedIn(!!token);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   return (

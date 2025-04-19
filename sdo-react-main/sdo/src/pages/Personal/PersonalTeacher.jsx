@@ -116,8 +116,8 @@ const PersonalTeacher = () => {
       });
   }, []);
 
-  const handleGroupClick = (groupName) => {
-    navigate(`/group/${groupName}/students`);
+  const handleGroupClick = (groupId) => {
+    navigate(`/Groups/${groupId}`);
   };
 
   return (
@@ -149,7 +149,7 @@ const PersonalTeacher = () => {
               groups.map((group) => (
                 <ListSubject
                   key={group.id}
-                  onClick={() => handleGroupClick(group.name)}
+                  onClick={() => handleGroupClick(group.id)}
                 >
                   <TextDiscipline>{group.name}</TextDiscipline>
                 </ListSubject>

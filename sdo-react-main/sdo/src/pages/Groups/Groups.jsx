@@ -1,73 +1,66 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from 'react';
-import GroupWindow from "./components/GroupWindow.jsx";
-import { getFacultyGroups } from '../../api/teachers-api';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getStudentsByGroup } from "../../api/teacher-api";
 
-const GroupsContainer = styled.div`
+const StudentsContainer = styled.div`
   display: flex;
-
-  flex-direction: column; /* Располагаем дочерние элементы в столбик */
-
-  align-items: center; /* Центрирование по горизонтали */
-
-  margin: 20px; /* Отступ сверху и центрирование по горизонтали */
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
 `;
 
-const StyledContainer = styled.div`
-  background-color: #e6f4cf;
-
-  font-family: "Montserrat";
-
+const GroupHeader = styled.div`
   width: 1480px;
+  font-family: "Montserrat";
+  font-size: 24px;
+  font-weight: bold;
+  padding: 15px 20px;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  color: #333;
+`;
 
-  height: 100px;
-
-  padding: 0 20px;
-
+const StudentList = styled.ul`
+  width: 1480px;
+  list-style: none;
+  padding: 0;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
+const StudentItem = styled.li`
+  background-color: #e6f4cf;
+  font-family: "Montserrat";
+  padding: 20px;
+  display: flex;
   align-items: center;
-
   justify-content: space-between;
-
-  margin: 10px 0; /* Отступ между компонентами */
-
   transition: background-color 0.3s;
-
   border-radius: 7px;
 `;
 
-const GroupContent = styled.div`
+const StudentInfo = styled.div`
   display: flex;
-
   align-items: center;
 `;
 
-const GroupNumber = styled.div`
+const StudentName = styled.div`
   font-weight: normal;
-
   font-size: 20px;
-
-  margin-right: 10px;
+  margin-right: 20px;
 `;
 
-const ChangeButton = styled.button`
+const ViewButton = styled.button`
   font-weight: normal;
-
-  font-size: 20px;
-
+  font-size: 18px;
   background-color: #becbee;
-
   color: white;
-
   border: none;
-
   border-radius: 5px;
-
   cursor: pointer;
-
   height: 42px;
-
   padding: 0 15px;
 
   &:hover {
@@ -75,26 +68,49 @@ const ChangeButton = styled.button`
   }
 `;
 
-const Groups = () => {
-  const [groupNumbers, setGroups] = useState([]);
-  
+const StudentsByGroup = () => {
+  const { groupId } = useParams();
+  const [students, setStudents] = useState({ isLoading: true, data: [] });
+
   useEffect(() => {
-    getFacultyGroups()
-      .then(res => {
-        setGroups(res.data);
-      })
-      .catch(error => {
-        console.error(error.message);
-      });
-  }, []);
+    const fetchStudents = async () => {
+      try {
+        const response = await getStudentsByGroup(groupId);
+        setStudents({ isLoading: false, data: response.data });
+      } catch (error) {
+        console.error("Failed to fetch students:", error);
+        setStudents({ isLoading: false, data: [] });
+      }
+    };
+
+    fetchStudents();
+  }, [groupId]);
+
+  const groupName = students.data.length > 0 ? students.data[0].studyGroup : "";
 
   return (
-    <GroupsContainer>
-      {groupNumbers.map((group) => (
-        <GroupWindow key={group.group_id} groupNumber={group.group_id} />
-      ))}
-    </GroupsContainer>
+    <StudentsContainer>
+      {!students.isLoading && students.data.length > 0 && (
+        <GroupHeader>Студенты группы {groupName}</GroupHeader>
+      )}
+      <StudentList>
+        {students.isLoading ? (
+          <p>Загрузка...</p>
+        ) : students.data.length === 0 ? (
+          <p>Студенты не найдены</p>
+        ) : (
+          students.data.map((student) => (
+            <StudentItem key={student.id}>
+              <StudentInfo>
+                <StudentName>{student.full_name}</StudentName>
+              </StudentInfo>
+              <ViewButton>Просмотреть</ViewButton>
+            </StudentItem>
+          ))
+        )}
+      </StudentList>
+    </StudentsContainer>
   );
 };
 
-export default Groups;
+export default StudentsByGroup;

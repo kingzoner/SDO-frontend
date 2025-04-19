@@ -84,8 +84,13 @@ const Header = ({ setIsLoggedIn, isLoggedIn }) => {
     navigate("/");
   };
 
+  const getPersonalAccount = () => {
+    const role = localStorage.getItem("status");
+    return role === "student" ? "/PersonalStud" : "/PersonalTeacher";
+  };
+
   const getLaboratoryRoute = () => {
-    const role = localStorage.getItem("status"); // берём реальное значение из localStorage прямо сейчас
+    const role = localStorage.getItem("status");
     return role === "student" ? "/StudLaboratory" : "/laboratory";
   };
 
@@ -101,6 +106,10 @@ const Header = ({ setIsLoggedIn, isLoggedIn }) => {
           <Nav>
             {isLoggedIn ? (
               <>
+                <Link to={getPersonalAccount()} className="header__nav-lr">
+                  Личный кабинет
+                </Link>
+
                 <Link to={getLaboratoryRoute()} className="header__nav-lr">
                   Лабораторные работы
                 </Link>

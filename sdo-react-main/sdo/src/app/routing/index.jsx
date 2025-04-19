@@ -25,7 +25,9 @@ const MainRouter = ({ setIsLoggedIn }) => {
       <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Auto setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/registration" element={<Registration />} />
+        <Route
+        path="/registration"
+        element={<Registration setIsLoggedIn={setIsLoggedIn} />}/>
         <Route path="/" element={<Main />} />
 
         <Route path="/Laboratory" element={
@@ -53,7 +55,7 @@ const MainRouter = ({ setIsLoggedIn }) => {
             <CheckLaboratory />
           </ProtectedRoute>
         } />
-        <Route path="/groups" element={
+        <Route path="/groups/:groupId" element={
           <ProtectedRoute allowedRoles={['teacher']}>
             <Groups />
           </ProtectedRoute>
