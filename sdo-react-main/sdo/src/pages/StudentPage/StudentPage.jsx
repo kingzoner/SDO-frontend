@@ -176,7 +176,6 @@ export default function StudentPage() {
                         <ListSubject style={{ color: "black" }}
                             key={labId}
                             $isCompleted={isCompleted}
-                            onClick={() => handleLabClick(labId, labName)}
                         >
                             <TextDiscipline>{labName}</TextDiscipline>
                         </ListSubject>
