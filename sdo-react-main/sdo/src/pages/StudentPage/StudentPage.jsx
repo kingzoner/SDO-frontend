@@ -37,10 +37,6 @@ const ListSubject = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  &:hover {
-    background-color: #E6F4CF;
-  }
 `;
 
 const BigList = styled.div`
