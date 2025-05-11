@@ -125,7 +125,7 @@ export default function StudentPage() {
         const fetchLabs = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/api/teachers/students/${id}/labs`,
+                    `http://109.73.204.114:8000/api/teachers/students/${id}/labs`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

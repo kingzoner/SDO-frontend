@@ -244,7 +244,7 @@ const LaboratoryAdd = () => {
         const fetchLabData = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/api/teachers/unpublished_labs/${id}`,
+                    `http://109.73.204.114:8000/api/teachers/unpublished_labs/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -268,7 +268,7 @@ const LaboratoryAdd = () => {
         const fetchSubjects = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8000/api/teachers/subjects`,
+                    `http://109.73.204.114:8000/api/teachers/subjects`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -359,7 +359,7 @@ const LaboratoryAdd = () => {
 
         try {
             const response = await axios.put(
-                `http://localhost:8000/api/teachers/unpublished_labs/${id}`,
+                `http://109.73.204.114:8000/api/teachers/unpublished_labs/${id}`,
                 labData,
                 {
                     headers: {
