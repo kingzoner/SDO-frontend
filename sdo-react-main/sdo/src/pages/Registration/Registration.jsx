@@ -128,7 +128,6 @@ const Registration = ({ setIsLoggedIn }) => {
       // Обновляем isLoggedIn
       setIsLoggedIn(true);
 
-      // Задержка для гарантии обновления состояния
       setTimeout(() => {
         if (role === "student") {
           navigate("/PersonalStud", { replace: true });
@@ -161,22 +160,22 @@ const Registration = ({ setIsLoggedIn }) => {
       >
         <input
           type="text"
-          placeholder="Имя"
-          name="first_name"
-          value={newUserState.first_name}
-          className="section__login-formInput"
-          onChange={(e) =>
-            setNewUser({ ...newUserState, first_name: e.target.value })
-          }
-        />
-        <input
-          type="text"
           placeholder="Фамилия"
           name="last_name"
           value={newUserState.last_name}
           className="section__login-formInput"
           onChange={(e) =>
             setNewUser({ ...newUserState, last_name: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Имя"
+          name="first_name"
+          value={newUserState.first_name}
+          className="section__login-formInput"
+          onChange={(e) =>
+            setNewUser({ ...newUserState, first_name: e.target.value })
           }
         />
         <input
@@ -201,7 +200,7 @@ const Registration = ({ setIsLoggedIn }) => {
         </CheckboxContainer>
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Никнейм"
           name="name"
           value={newUserState.username}
           className="section__login-formInput"
@@ -211,7 +210,7 @@ const Registration = ({ setIsLoggedIn }) => {
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Пароль"
           name="somepassword"
           value={newUserState.password}
           className="section__login-formInput"
