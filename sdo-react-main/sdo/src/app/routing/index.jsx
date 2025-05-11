@@ -18,6 +18,7 @@ import Disciplines from "../../pages/Disciplines/Disciplines";
 import DisciplinesStud from "../../pages/DisciplinesStud/DisciplinesStud";
 import TestLabs from "../../pages/TestLabs/TestLabs";
 import ProtectedRoute from "../../components/ProtectedRoute";
+import StudentPage from "../../pages/StudentPage/StudentPage";
 
 const MainRouter = ({ setIsLoggedIn }) => {
   return (
@@ -26,16 +27,18 @@ const MainRouter = ({ setIsLoggedIn }) => {
       <Routes>
         <Route path="/login" element={<Auto setIsLoggedIn={setIsLoggedIn} />} />
         <Route
-        path="/registration"
-        element={<Registration setIsLoggedIn={setIsLoggedIn} />}/>
+          path="/registration"
+          element={<Registration setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/" element={<Main />} />
+
+        <Route path="/student/:id" element={<StudentPage />} />
 
         <Route path="/Laboratory" element={
           <ProtectedRoute allowedRoles={['teacher']}>
             <Laboratory />
           </ProtectedRoute>
         } />
-        <Route path="/editingLaboratoryPrep" element={
+        <Route path="/PrepodRedLab/:id" element={
           <ProtectedRoute allowedRoles={['teacher']}>
             <PrepodRedLab />
           </ProtectedRoute>

@@ -32,7 +32,6 @@ function App() {
       <Router>
         <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <MainRouter setIsLoggedIn={setIsLoggedIn} />
-        <Footer />
       </Router>
     </div>
   );

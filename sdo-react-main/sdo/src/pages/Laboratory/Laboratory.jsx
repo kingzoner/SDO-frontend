@@ -221,6 +221,21 @@ const Notification = styled.div`
   }
 `;
 
+const TextStyle = styled.p`
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  margin: 0;
+  text-align: center;
+  color: #000;
+  padding: 20px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+`;
+
 const Laboratory = () => {
   const [labItems, setLabItems] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -326,26 +341,30 @@ const Laboratory = () => {
             Добавить новую Лабораторную работу
           </Link>
         </SearchContainer>
-        <ListLab>
-          {labItems.map((item, index) => (
-            <li className={getColors(index)} key={item.id}>
-              <NameLab>
-                {item.name} (Предмет: {item.subject_name})
-              </NameLab>
-              <SpnLab>
-                <Link to={`/editingLaboratoryPrep/${item.id}`} className="section__lab-edit">
-                  Редактировать
-                </Link>
-                <ButtonDelete onClick={() => handleDeleteClick(item.id, index)}>
-                  Удалить
-                </ButtonDelete>
-                <PublishButton onClick={() => handlePublishClick(item.id, index)}>
-                  Опубликовать
-                </PublishButton>
-              </SpnLab>
-            </li>
-          ))}
-        </ListLab>
+        {labItems.length === 0 ? (
+          <TextStyle>Лабораторные работы не найдены</TextStyle>
+        ) : (
+          <ListLab>
+            {labItems.map((item, index) => (
+              <li className={getColors(index)} key={item.id}>
+                <NameLab>
+                  {item.name} (Предмет: {item.subject_name})
+                </NameLab>
+                <SpnLab>
+                  <Link to={`/PrepodRedLab/${item.id}`} className="section__lab-edit">
+                    Редактировать
+                  </Link>
+                  <ButtonDelete onClick={() => handleDeleteClick(item.id, index)}>
+                    Удалить
+                  </ButtonDelete>
+                  <PublishButton onClick={() => handlePublishClick(item.id, index)}>
+                    Опубликовать
+                  </PublishButton>
+                </SpnLab>
+              </li>
+            ))}
+          </ListLab>
+        )}
       </SectionLab>
       <Notification className={notification.isError ? "error" : ""} visible={notification.visible}>
         {notification.message}

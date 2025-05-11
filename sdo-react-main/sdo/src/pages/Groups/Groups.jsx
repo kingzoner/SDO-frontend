@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getStudentsByGroup } from "../../api/teacher-api";
 
 const StudentsContainer = styled.div`
@@ -68,8 +68,25 @@ const ViewButton = styled.button`
   }
 `;
 
+const TextStyle = styled.p`
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  margin: 0;
+  text-align: center;
+  color: #000;
+  padding: 20px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-height: 30px;
+`;
+
 const StudentsByGroup = () => {
   const { groupId } = useParams();
+  const navigate = useNavigate();
   const [students, setStudents] = useState({ isLoading: true, data: [] });
 
   useEffect(() => {
@@ -87,6 +104,7 @@ const StudentsByGroup = () => {
   }, [groupId]);
 
   const groupName = students.data.length > 0 ? students.data[0].studyGroup : "";
+  const handleViewStudent = (id) => navigate(`/student/${id}`);
 
   return (
     <StudentsContainer>
@@ -95,16 +113,18 @@ const StudentsByGroup = () => {
       )}
       <StudentList>
         {students.isLoading ? (
-          <p>Загрузка...</p>
+          <TextStyle>Загрузка студентов...</TextStyle>
         ) : students.data.length === 0 ? (
-          <p>Студенты не найдены</p>
+          <TextStyle>Студенты не найдены</TextStyle>
         ) : (
           students.data.map((student) => (
             <StudentItem key={student.id}>
               <StudentInfo>
                 <StudentName>{student.full_name}</StudentName>
               </StudentInfo>
-              <ViewButton>Просмотреть</ViewButton>
+              <ViewButton onClick={() => handleViewStudent(student.id)}>
+                Просмотреть
+              </ViewButton>
             </StudentItem>
           ))
         )}

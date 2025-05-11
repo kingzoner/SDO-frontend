@@ -67,13 +67,15 @@ const Text = styled.p`
 const TextDisciplines = styled.p`
   font-family: "Montserrat";
   font-size: 16px;
+  align-items: center;
+  text-align: center;
   font-weight: 600;
 `;
 
 const RowBlocks = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
   gap: 10px;
 `;
 
@@ -141,7 +143,7 @@ const PersonalTeacher = () => {
         <List>
           <Text>ФИО преподавателя:</Text>
           <TextDisciplines>
-            {teacherInfo.first_name} {teacherInfo.last_name}{" "}
+            {teacherInfo.last_name} {teacherInfo.first_name} {" "}
             {teacherInfo.middle_name}
           </TextDisciplines>
         </List>

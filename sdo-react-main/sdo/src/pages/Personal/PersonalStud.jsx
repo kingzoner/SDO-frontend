@@ -122,7 +122,7 @@ export default function PersonalStud() {
       <RowBlocks>
         <List>
           <Text>ФИО студента:</Text>
-          <InfoText>{studentInfo.first_name} {studentInfo.last_name} {studentInfo.middle_name}</InfoText>
+          <InfoText>{studentInfo.last_name} {studentInfo.first_name} {studentInfo.middle_name}</InfoText>
         </List>
         <List>
           <Text>Номер группы:</Text>
