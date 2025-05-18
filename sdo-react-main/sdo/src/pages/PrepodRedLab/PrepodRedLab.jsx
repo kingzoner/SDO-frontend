@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { IoIosClose } from "react-icons/io";
+import { labData } from "../../api/teacher-api";
+import { editLab } from "../../api/teacher-api";
+import { getLabs } from "../../api/teacher-api";
 
 // Стили
 const Section = styled.section`
@@ -228,6 +231,8 @@ const LaboratoryAdd = () => {
     const { id } = useParams(); // Получаем ID лабораторной работы из URL
     const [labTitle, setLabTitle] = useState("");
     const [labDescription, setLabDescription] = useState("");
+    const [teacherFormula, setTeacherFormula] = useState(""); // Новое состояние
+    const [inputVariables, setInputVariables] = useState(""); // Новое состояние
     const [subjectId, setSubjectId] = useState(null); // Состояние для subject_id
     const [subjects, setSubjects] = useState([]); // Список предметов
     const [testCases, setTestCases] = useState([]);
@@ -242,45 +247,35 @@ const LaboratoryAdd = () => {
     useEffect(() => {
         // Получение данных лабораторной работы
         const fetchLabData = async () => {
-            try {
-                const response = await axios.get(
-                    `http://109.73.204.114:8000/api/teachers/unpublished_labs/${id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            Accept: "application/json",
-                        },
-                    }
-                );
-                const lab = response.data;
-                setLabTitle(lab.name || "");
-                setLabDescription(lab.description || "");
-                setSubjectId(lab.subject_id || null);
-                setTestCases(lab.test_cases || []);
-                setResponseMessage("Данные лабораторной работы загружены!");
-            } catch (error) {
-                console.error("Ошибка при загрузке данных лабораторной работы:", error);
-                setError("Не удалось загрузить данные лабораторной работы");
-            }
+            labData(id).then((response) => {
+                if (response.status === 200) {
+                    console.log("Данные лабораторной работы:", response.data);
+                    const lab = response.data;
+                    setLabTitle(lab.name || "");
+                    setLabDescription(lab.description || "");
+                    setTeacherFormula(lab.teacher_formula || ""); // Заполняем формулу
+                    setInputVariables(lab.input_variables || ""); // Заполняем переменные
+                    setSubjectId(lab.subject_id || null);
+                    setTestCases(lab.test_cases || []);
+                    setResponseMessage("Данные лабораторной работы загружены!");
+                } else {
+                    console.error("Ошибка при загрузке данных лабораторной работы:", error);
+                    setError("Не удалось загрузить данные лабораторной работы");
+                }
+            });
         };
 
         // Получение списка предметов
         const fetchSubjects = async () => {
-            try {
-                const response = await axios.get(
-                    `http://109.73.204.114:8000/api/teachers/subjects`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            Accept: "application/json",
-                        },
-                    }
-                );
-                setSubjects(response.data || []);
-            } catch (error) {
-                console.error("Ошибка при загрузке списка предметов:", error);
-                setError("Не удалось загрузить список предметов");
-            }
+            getLabs().then((response) => {
+                if (response.status === 200) {
+                    setSubjects(response.data || []);
+                    console.log("Список предметов:", response.data);
+                } else {
+                    console.error("Ошибка при загрузке списка предметов:", error);
+                    setError("Не удалось загрузить список предметов");
+                }
+            });
         };
 
         if (id) {
@@ -297,6 +292,16 @@ const LaboratoryAdd = () => {
     // Обработка изменения описания лабораторной работы
     const handleLabDescriptionChange = (event) => {
         setLabDescription(event.target.value);
+    };
+
+    // Обработка изменения формулы
+    const handleTeacherFormulaChange = (event) => {
+        setTeacherFormula(event.target.value);
+    };
+
+    // Обработка изменения входных переменных
+    const handleInputVariablesChange = (event) => {
+        setInputVariables(event.target.value);
     };
 
     // Обработка изменения предмета
@@ -345,36 +350,35 @@ const LaboratoryAdd = () => {
         }
 
         const labData = {
-            name: labTitle,
-            description: labDescription,
-            teacher_formula: "Updated", // Можно добавить поле в форму, если нужно
-            input_variables: "Updated", // Можно добавить поле в форму, если нужно
-            Subject_id: subjectId,
-            testCases: testCases.map((test) => ({
-                id: test.id,
-                inp: test.inp,
-                out: test.out,
-            })),
+            task: {
+                id: Number(id),
+                name: labTitle,
+                description: labDescription,
+                teacher_formula: teacherFormula, // Используем новое состояние
+                input_variables: inputVariables, // Используем новое состояние
+                subject_id: subjectId,
+                test_cases: testCases.map((test) => ({
+                    id: test.id,
+                    inp: test.inp,
+                    out: test.out,
+                })),
+            }
         };
 
         try {
-            const response = await axios.put(
-                `http://109.73.204.114:8000/api/teachers/unpublished_labs/${id}`,
-                labData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                        Accept: "application/json",
-                    },
-                }
-            );
-            console.log("Ответ от сервера:", response.data);
-            setResponseMessage("Лабораторная работа успешно обновлена!");
-            setError("");
+            const response = await editLab(id, labData);
+            if (response.status === 200) {
+                console.log("Лабораторная работа успешно обновлена:", response.data);
+                setResponseMessage("Лабораторная работа успешно обновлена!");
+                setError("");
+            } else {
+                console.error("Ошибка при обновлении лабораторной работы:", response);
+                setError("Не удалось обновить лабораторную работу");
+                setResponseMessage("");
+            }
         } catch (error) {
-            console.error("Ошибка при сохранении данных:", error);
-            setError("Не удалось сохранить лабораторную работу");
+            console.error("Ошибка при обновлении лабораторной работы:", error);
+            setError("Не удалось обновить лабораторную работу");
             setResponseMessage("");
         }
     };
@@ -390,6 +394,34 @@ const LaboratoryAdd = () => {
                         value={labTitle}
                         onChange={handleLabTitleChange}
                     />
+                </List>
+
+                {/* Формула преподавателя */}
+                <List>
+                    <div className="editing__block-Two">
+                        <TitleBlock>Формула преподавателя:</TitleBlock>
+                        <input
+                            className="editing__block-input"
+                            type="text"
+                            value={teacherFormula}
+                            onChange={handleTeacherFormulaChange}
+                            placeholder="Введите формулу"
+                        />
+                    </div>
+                </List>
+
+                {/* Входные переменные */}
+                <List>
+                    <div className="editing__block-Two">
+                        <TitleBlock>Входные переменные:</TitleBlock>
+                        <input
+                            className="editing__block-input"
+                            type="text"
+                            value={inputVariables}
+                            onChange={handleInputVariablesChange}
+                            placeholder="Введите переменные через запятую"
+                        />
+                    </div>
                 </List>
 
                 {/* Выбор предмета */}

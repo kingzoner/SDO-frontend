@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { getStudentById } from '../../api/user-api';
 import { getSubjects } from '../../api/subjects-api';
+import { getAllStudentsLab } from "../../api/teacher-api";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -119,23 +120,15 @@ export default function StudentPage() {
 
         // Загрузка списка лаб
         const fetchLabs = async () => {
-            try {
-                const response = await axios.get(
-                    `http://109.73.204.114:8000/api/teachers/students/${id}/labs`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            Accept: "application/json",
-                        },
-                    }
-                );
-                setLabs(response.data || []);
-            } catch (error) {
-                console.error("Ошибка при загрузке лабораторных работ:", error);
-                setError("Не удалось загрузить список лабораторных работ");
-            }
+            getAllStudentsLab(id)
+                .then(res => {
+                    setLabs(res.data);
+                })
+                .catch(error => {
+                    console.error("Ошибка при получении лабораторных работ:", error.message);
+                    setError("Не удалось загрузить список лабораторных работ");
+                });
         };
-
         if (id) {
             fetchLabs();
         }

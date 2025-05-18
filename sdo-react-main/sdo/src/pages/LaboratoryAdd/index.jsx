@@ -11,12 +11,12 @@ const Section = styled.form`
     flex-wrap: nowrap;
 `
 const BigBlock = styled.div`
-    width: ${({$BigWeight}) => ($BigWeight ? '1248px' : '1247px')};
-    height: ${({$BigHeight}) => ($BigHeight ? '530px' : '375px')};
-    background-color: ${({$BigFon}) => ($BigFon ? '#E2EDD0' : '#D5DEF6')};
+    width: ${({ $BigWeight }) => ($BigWeight ? '1248px' : '1247px')};
+    height: ${({ $BigHeight }) => ($BigHeight ? '530px' : '375px')};
+    background-color: ${({ $BigFon }) => ($BigFon ? '#E2EDD0' : '#D5DEF6')};
     border-radius: 10px;
     display: flex;
-    gap: ${({$GapForm}) => ($GapForm ? '75px' : '0px')};
+    gap: ${({ $GapForm }) => ($GapForm ? '75px' : '0px')};
     .block__test{
         width: 540px;
         display: flex;
@@ -51,7 +51,7 @@ const UlMinBlock = styled.ul`
     display: flex;
     flex-direction: column;
     gap: 30px;
-    padding-top: ${({$PaddingTopForm}) => ($PaddingTopForm ? '10px' : '15px')};
+    padding-top: ${({ $PaddingTopForm }) => ($PaddingTopForm ? '10px' : '15px')};
 `
 const UlList = styled.ul`
     display: flex;
@@ -145,7 +145,7 @@ const UlList = styled.ul`
         justify-content: center;
         width: 1248px;
     }
-` 
+`
 const List = styled.li`
     width: ${({ $Block }) => ($Block ? '1248px' : '608px')};
     height: ${({ $Block }) => ($Block ? '59px' : '260px')};
@@ -177,15 +177,15 @@ const List = styled.li`
 const TitleBlock = styled.h3`
     color: #000;
     font-family: "Montserrat";
-    font-size: ${({$FontSize}) => ($FontSize ? '16px' : '19px')};
-    font-weight: ${({$FontWeight}) => ($FontWeight ? '400' : '500')};
-    line-height: ${({$LineHeight}) => ($LineHeight ? '45px' : '27px')};
-    padding-left: ${({$Padding}) => ($Padding ? '45px' : '0px')};
-    margin: ${({$Margin}) => ($Margin ? '0px' : 'none')};
+    font-size: ${({ $FontSize }) => ($FontSize ? '16px' : '19px')};
+    font-weight: ${({ $FontWeight }) => ($FontWeight ? '400' : '500')};
+    line-height: ${({ $LineHeight }) => ($LineHeight ? '45px' : '27px')};
+    padding-left: ${({ $Padding }) => ($Padding ? '45px' : '0px')};
+    margin: ${({ $Margin }) => ($Margin ? '0px' : 'none')};
 `
 const ButtonAdd = styled.button`
     font-family: "Montserrat";
-    width: ${({$ButtonAddW}) => ($ButtonAddW ? '400px' : '274px') };
+    width: ${({ $ButtonAddW }) => ($ButtonAddW ? '400px' : '274px')};
     flex-shrink: 0;
     border-radius: 4px;
     border: none;
@@ -346,8 +346,8 @@ const LaboratoryAdd = () => {
                 description: labDescription,
                 teacher_formula: formula,
                 input_variables: inputVariables,
-                Subject_id: parseInt(subjectId),
-                testCases: tests.map((test, index) => ({
+                subject_id: parseInt(subjectId),
+                test_cases: tests.map((test, index) => ({
                     id: index + 1,
                     inp: test.inp,
                     out: test.out,
@@ -358,163 +358,163 @@ const LaboratoryAdd = () => {
         sendDataToServer(newData);
     };
 
-    return ( 
+    return (
         <>
-        <Section onSubmit={handleSubmit}>
-            <UlList>
-                <List>
-                    <NameLabInput 
-                        type="text" 
-                        placeholder="Введите название лабораторной работы"
-                        onChange={(e) => setLabTitle(e.target.value)} 
-                        value={labTitle}
-                    /> 
-                </List>
-                <List>
-                    <div className="editing__block-Two">
-                        <TitleBlock>
-                            Описание лабораторной
-                        </TitleBlock>
-                        <p className="editing__block-text">
-                            Введите описание лабораторной работы
-                        </p>
-                        <textarea 
-                            className="editing__block-input" 
-                            type="text" 
-                            onChange={(e) => setLabDescription(e.target.value)}
-                            placeholder="Введите текст"
-                            value={labDescription}
-                        />   
-                    </div>
-                </List>
-                <BigBlock $BigFon $BigHeight $BigWeight $GapForm>
-                    <div className="block__one">
-                        <TitleBlock $Padding>
-                            Список тестов:
-                        </TitleBlock> 
-                        <UlMinBlock>
-                            {tests.map((test, index) => (
-                                <MinBlock key={index}>
-                                    <TitleBlock $FontSize $FontWeight $Margin>
-                                        Тест {index + 1}
-                                    </TitleBlock>
-                                    <div className="editing__block-name">
-                                        <TitleBlock $FontSize $FontWeight $Margin>
-                                            Входные данные:
-                                        </TitleBlock>
-                                        <input
-                                            type="text"
-                                            className="some-input"
-                                            value={test.inp}
-                                            readOnly
-                                        />
-                                    </div>
-                                    <div className="editing__block-name">
-                                        <TitleBlock $FontSize $FontWeight $Margin>
-                                            Вывод:
-                                        </TitleBlock>
-                                        <input
-                                            type="text"
-                                            className="some-input"
-                                            value={test.out}
-                                            readOnly
-                                        />
-                                    </div>
-                                    <IoIosClose className="icon" onClick={() => handleRemoveTest(index)}/>
-                                </MinBlock>
-                            ))}
-                        </UlMinBlock>
-                    </div>
-                    <div className="block__test">
-                        <TitleBlock>
-                            Добавить новый тест:
-                        </TitleBlock>
-                        <div className="editing__block-name">
-                            <TitleBlock $FontSize $FontWeight>
-                                Входные данные:
+            <Section onSubmit={handleSubmit}>
+                <UlList>
+                    <List>
+                        <NameLabInput
+                            type="text"
+                            placeholder="Введите название лабораторной работы"
+                            onChange={(e) => setLabTitle(e.target.value)}
+                            value={labTitle}
+                        />
+                    </List>
+                    <List>
+                        <div className="editing__block-Two">
+                            <TitleBlock>
+                                Описание лабораторной
                             </TitleBlock>
-                            <input
+                            <p className="editing__block-text">
+                                Введите описание лабораторной работы
+                            </p>
+                            <textarea
+                                className="editing__block-input"
                                 type="text"
-                                className="some-input"
-                                value={newTest.inp}
-                                onChange={(e) => handleNewTestChange("inp", e.target.value)}
+                                onChange={(e) => setLabDescription(e.target.value)}
+                                placeholder="Введите текст"
+                                value={labDescription}
                             />
                         </div>
-                        <div className="editing__block-name">
-                            <TitleBlock $FontSize $FontWeight>
-                                Вывод:
+                    </List>
+                    <BigBlock $BigFon $BigHeight $BigWeight $GapForm>
+                        <div className="block__one">
+                            <TitleBlock $Padding>
+                                Список тестов:
                             </TitleBlock>
-                            <input
-                                type="text"
-                                className="some-input"
-                                value={newTest.out}
-                                onChange={(e) => handleNewTestChange("out", e.target.value)}
-                            />
+                            <UlMinBlock>
+                                {tests.map((test, index) => (
+                                    <MinBlock key={index}>
+                                        <TitleBlock $FontSize $FontWeight $Margin>
+                                            Тест {index + 1}
+                                        </TitleBlock>
+                                        <div className="editing__block-name">
+                                            <TitleBlock $FontSize $FontWeight $Margin>
+                                                Входные данные:
+                                            </TitleBlock>
+                                            <input
+                                                type="text"
+                                                className="some-input"
+                                                value={test.inp}
+                                                readOnly
+                                            />
+                                        </div>
+                                        <div className="editing__block-name">
+                                            <TitleBlock $FontSize $FontWeight $Margin>
+                                                Вывод:
+                                            </TitleBlock>
+                                            <input
+                                                type="text"
+                                                className="some-input"
+                                                value={test.out}
+                                                readOnly
+                                            />
+                                        </div>
+                                        <IoIosClose className="icon" onClick={() => handleRemoveTest(index)} />
+                                    </MinBlock>
+                                ))}
+                            </UlMinBlock>
                         </div>
-                        <ButtonAdd $ButtonAddW type="button" onClick={handleAddTest}>
-                            Добавить тест
-                        </ButtonAdd>
-                    </div>
-                </BigBlock>
-                <BigBlock>
-                    <div className="block__test">
-                        <TitleBlock $Padding>
-                            Формула и переменные
-                        </TitleBlock> 
-                        <UlMinBlock>
-                            <FormBlock>
-                                <FormInput 
+                        <div className="block__test">
+                            <TitleBlock>
+                                Добавить новый тест:
+                            </TitleBlock>
+                            <div className="editing__block-name">
+                                <TitleBlock $FontSize $FontWeight>
+                                    Входные данные:
+                                </TitleBlock>
+                                <input
                                     type="text"
-                                    value={formula}
-                                    onChange={(e) => setFormula(e.target.value)}
-                                    placeholder="Введите формулу (например, x + y)"
+                                    className="some-input"
+                                    value={newTest.inp}
+                                    onChange={(e) => handleNewTestChange("inp", e.target.value)}
                                 />
-                            </FormBlock>
-                            <FormBlock>
-                                <FormInput 
+                            </div>
+                            <div className="editing__block-name">
+                                <TitleBlock $FontSize $FontWeight>
+                                    Вывод:
+                                </TitleBlock>
+                                <input
                                     type="text"
-                                    value={inputVariables}
-                                    onChange={(e) => setInputVariables(e.target.value)}
-                                    placeholder="Введите входные переменные (например, a, b)"
+                                    className="some-input"
+                                    value={newTest.out}
+                                    onChange={(e) => handleNewTestChange("out", e.target.value)}
                                 />
-                            </FormBlock>
-                        </UlMinBlock>
-                    </div>
-                </BigBlock>
-                <List className="subject-block">
-                    <FormBlock>
-                        <FormSelect
-                            value={subjectId}
-                            onChange={(e) => setSubjectId(e.target.value)}
+                            </div>
+                            <ButtonAdd $ButtonAddW type="button" onClick={handleAddTest}>
+                                Добавить тест
+                            </ButtonAdd>
+                        </div>
+                    </BigBlock>
+                    <BigBlock>
+                        <div className="block__test">
+                            <TitleBlock $Padding>
+                                Формула и переменные
+                            </TitleBlock>
+                            <UlMinBlock>
+                                <FormBlock>
+                                    <FormInput
+                                        type="text"
+                                        value={formula}
+                                        onChange={(e) => setFormula(e.target.value)}
+                                        placeholder="Введите формулу (например, x + y)"
+                                    />
+                                </FormBlock>
+                                <FormBlock>
+                                    <FormInput
+                                        type="text"
+                                        value={inputVariables}
+                                        onChange={(e) => setInputVariables(e.target.value)}
+                                        placeholder="Введите входные переменные (например, a, b)"
+                                    />
+                                </FormBlock>
+                            </UlMinBlock>
+                        </div>
+                    </BigBlock>
+                    <List className="subject-block">
+                        <FormBlock>
+                            <FormSelect
+                                value={subjectId}
+                                onChange={(e) => setSubjectId(e.target.value)}
+                            >
+                                <option value="">Выберите предмет</option>
+                                {subjects.map((subject) => (
+                                    <option key={subject.id} value={subject.id}>
+                                        {subject.name}
+                                    </option>
+                                ))}
+                            </FormSelect>
+                        </FormBlock>
+                    </List>
+                    <div className="block__button">
+                        <button
+                            className="block__end"
+                            type="submit"
                         >
-                            <option value="">Выберите предмет</option>
-                            {subjects.map((subject) => (
-                                <option key={subject.id} value={subject.id}>
-                                    {subject.name}
-                                </option>
-                            ))}
-                        </FormSelect>
-                    </FormBlock>
-                </List>
-                <div className="block__button"> 
-                    <button 
-                        className="block__end" 
-                        type="submit"
-                    >
-                        <span className="block__end-link">
-                            Завершить редактирование и добавить лабораторную
-                        </span>
-                    </button>
-                </div>
-            </UlList>  
-        </Section>
-        {showNotification && (
-            <Notification $isSuccess={isSuccess} $visible={showNotification}>
-                {responseMessage}
-            </Notification>
-        )}
+                            <span className="block__end-link">
+                                Завершить редактирование и добавить лабораторную
+                            </span>
+                        </button>
+                    </div>
+                </UlList>
+            </Section>
+            {showNotification && (
+                <Notification $isSuccess={isSuccess} $visible={showNotification}>
+                    {responseMessage}
+                </Notification>
+            )}
         </>
     );
 }
- 
+
 export default LaboratoryAdd;

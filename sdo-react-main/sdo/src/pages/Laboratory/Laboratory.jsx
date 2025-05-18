@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import { getUnpublishedLabs, deleteUnpublishedLab, publishUnpublishedLab } from "../../api/teacher-api";
+import { getStudentsLabs, deleteLab, toggleStatusLab } from "../../api/teacher-api";
 
 const Container = styled.div`
   padding: 0 200px;
@@ -237,140 +237,159 @@ const TextStyle = styled.p`
 `;
 
 const Laboratory = () => {
-  const [labItems, setLabItems] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
-  const [notification, setNotification] = useState({ message: "", visible: false, isError: false });
+	const [labItems, setLabItems] = useState([]);
+	const [searchValue, setSearchValue] = useState("");
+	const [notification, setNotification] = useState({ message: "", visible: false, isError: false });
 
-  const handleSearch = () => {
-    console.log("Поиск запущен!");
-  };
+	const handleSearch = () => {
+		console.log("Поиск запущен!");
+	};
 
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
-  };
+	const handleSearchChange = (event) => {
+		setSearchValue(event.target.value);
+	};
 
-  const fetchLabs = async () => {
-    try {
-      const response = await getUnpublishedLabs();
-      if (response.status === 200) {
-        setLabItems(response.data);
-      } else {
-        throw new Error("Failed to fetch unpublished labs");
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+	const fetchLabs = async () => {
+		try {
+			const response = await getStudentsLabs();
+			if (response.status === 200) {
+				setLabItems(response.data);
+			} else {
+				throw new Error("Failed to fetch unpublished labs");
+			}
+		} catch (error) {
+			console.error(error.message);
+		}
+	};
 
-  const deleteLab = async (labId) => {
-    try {
-      const response = await deleteUnpublishedLab(labId);
-      if (response.status === 200 || response.status === 204) {
-        return true;
-      } else {
-        throw new Error("Failed to delete lab");
-      }
-    } catch (error) {
-      console.error("Ошибка при удалении лабораторной работы:", error.message);
-      return false;
-    }
-  };
+	const deleteStudentsLab = async (labId) => {
+		try {
+			const response = await deleteLab(labId);
+			if (response.status === 200 || response.status === 204) {
+				return true;
+			} else {
+				throw new Error("Failed to delete lab");
+			}
+		} catch (error) {
+			console.error("Ошибка при удалении лабораторной работы:", error.message);
+			return false;
+		}
+	};
 
-  const publishLab = async (labId) => {
-    try {
-      const response = await publishUnpublishedLab(labId);
-      if (response.status === 200 || response.status === 201) {
-        return true;
-      } else {
-        throw new Error("Failed to publish lab");
-      }
-    } catch (error) {
-      console.error("Ошибка при публикации лабораторной работы:", error.message);
-      return false;
-    }
-  };
+	const toggleLab = async (labId) => {
+		try {
+			const response = await toggleStatusLab(labId);
+			if (response.status === 200 || response.status === 201) {
+				return true;
+			} else {
+				throw new Error("Ошибка изменения статуса лабораторной работы");
+			}
+		} catch (error) {
+			console.error("Ошибка при изменении статуса лабораторной работы:", error.message);
+			return false;
+		}
+	};
 
-  const handleDeleteClick = async (labId, index) => {
-    const success = await deleteLab(labId);
-    if (success) {
-      setLabItems(labItems.filter((item) => item.id !== labId));
-      setNotification({ message: "Лабораторная работа успешно удалена!", visible: true, isError: false });
-      setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
-    } else {
-      setNotification({ message: "Ошибка при удалении лабораторной работы!", visible: true, isError: true });
-      setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
-    }
-  };
+	const handleDeleteClick = async (labId, index) => {
+		const success = await deleteStudentsLab(labId);
+		if (success) {
+			setLabItems(labItems.filter((item) => item.id !== labId));
+			setNotification({ message: "Лабораторная работа успешно удалена!", visible: true, isError: false });
+			setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
+		} else {
+			setNotification({ message: "Ошибка при удалении лабораторной работы!", visible: true, isError: true });
+			setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
+		}
+	};
 
-  const handlePublishClick = async (labId, index) => {
-    const success = await publishLab(labId);
-    if (success) {
-      setLabItems(labItems.filter((item) => item.id !== labId));
-      setNotification({ message: "Лабораторная работа успешно опубликована!", visible: true, isError: false });
-      setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
-    } else {
-      setNotification({ message: "Ошибка при публикации лабораторной работы!", visible: true, isError: true });
-      setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
-    }
-  };
+	const handleUpdateStatusLabClick = async (labId, index) => {
+		const success = await toggleLab(labId);
+		if (success) {
+			// Обновляем статус лабораторной работы локально
+			setLabItems((prevItems) =>
+				prevItems.map((item) =>
+					item.id === labId
+						? { ...item, status: item.status === "published" ? "unpublished" : "published" }
+						: item
+				)
+			);
+			setNotification({ message: "Статус лабораторной работы успешно изменен!", visible: true, isError: false });
+			setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
+		} else {
+			setNotification({ message: "Ошибка при измении статуса лабораторной работы!", visible: true, isError: true });
+			setTimeout(() => setNotification({ ...notification, visible: false }), 3000);
+		}
+	};
 
-  useEffect(() => {
-    fetchLabs();
-  }, []);
+	useEffect(() => {
+		fetchLabs();
+	}, []);
 
-  const getColors = (index) => {
-    return index % 2 === 0
-      ? "section__lab-page"
-      : "section__lab-page alternate-color";
-  };
+	const getColors = (index) => {
+		return index % 2 === 0
+			? "section__lab-page"
+			: "section__lab-page alternate-color";
+	};
 
-  return (
-    <>
-      <SectionLab>
-        <SearchContainer>
-          <SearchInputContainer>
-            <SearchInput
-              type="text"
-              placeholder="Поиск лабораторной"
-              value={searchValue}
-              onChange={handleSearchChange}
-            />
-            <SearchIcon onClick={handleSearch} />
-          </SearchInputContainer>
-          <Link to="/LaboratoryAdd" id="buttonAdd" className="section__lab-button">
-            Добавить новую Лабораторную работу
-          </Link>
-        </SearchContainer>
-        {labItems.length === 0 ? (
-          <TextStyle>Лабораторные работы не найдены</TextStyle>
-        ) : (
-          <ListLab>
-            {labItems.map((item, index) => (
-              <li className={getColors(index)} key={item.id}>
-                <NameLab>
-                  {item.name} (Предмет: {item.subject_name})
-                </NameLab>
-                <SpnLab>
-                  <Link to={`/PrepodRedLab/${item.id}`} className="section__lab-edit">
-                    Редактировать
-                  </Link>
-                  <ButtonDelete onClick={() => handleDeleteClick(item.id, index)}>
-                    Удалить
-                  </ButtonDelete>
-                  <PublishButton onClick={() => handlePublishClick(item.id, index)}>
-                    Опубликовать
-                  </PublishButton>
-                </SpnLab>
-              </li>
-            ))}
-          </ListLab>
-        )}
-      </SectionLab>
-      <Notification className={notification.isError ? "error" : ""} visible={notification.visible}>
-        {notification.message}
-      </Notification>
-    </>
-  );
+	return (
+		<>
+			<SectionLab>
+				<SearchContainer>
+					<SearchInputContainer>
+						<SearchInput
+							type="text"
+							placeholder="Поиск лабораторной"
+							value={searchValue}
+							onChange={handleSearchChange}
+						/>
+						<SearchIcon onClick={handleSearch} />
+					</SearchInputContainer>
+					<Link to="/LaboratoryAdd" id="buttonAdd" className="section__lab-button">
+						Добавить новую Лабораторную работу
+					</Link>
+				</SearchContainer>
+				{labItems.length === 0 ? (
+					<TextStyle>Лабораторные работы не найдены</TextStyle>
+				) : (
+					<ListLab>
+						{labItems.map((item, index) => (
+							<li className={getColors(index)} key={item.id}>
+								<NameLab>
+									{item.name} (Предмет: {item.subject})
+								</NameLab>
+								<SpnLab>
+									<Link to={`/PrepodRedLab/${item.id}`} className="section__lab-edit">
+										Редактировать
+									</Link>
+									<ButtonDelete onClick={() => handleDeleteClick(item.id, index)}>
+										Удалить
+									</ButtonDelete>
+									{item.status == 'published' ? (
+										<PublishButton
+											style={{
+												backgroundColor: "#e0e0e0",
+												color: "#555",
+											}}
+											onClick={() => handleUpdateStatusLabClick(item.id, index)}
+										>
+											Открепить
+										</PublishButton>
+									) : (
+										<PublishButton onClick={() => handleUpdateStatusLabClick(item.id, index)}>
+											Опубликовать
+										</PublishButton>
+									)}
+								</SpnLab>
+							</li>
+						))}
+					</ListLab>
+				)}
+			</SectionLab>
+			<Notification className={notification.isError ? "error" : ""} visible={notification.visible}>
+				{notification.message}
+			</Notification>
+		</>
+	);
 };
 
 export default Laboratory;
