@@ -53,6 +53,9 @@ const UlMinBlock = styled.ul`
   flex-direction: column;
   gap: 30px;
   padding-top: ${({ $PaddingTopForm }) => ($PaddingTopForm ? "10px" : "15px")};
+  max-height: 420px; /* предотвращает выход списка за пределы блока */
+  overflow-y: auto;  /* добавляет прокрутку при большом количестве тестов */
+  padding-right: 8px; /* небольшой отступ под скроллбар */
 `;
 
 const UlList = styled.ul`
