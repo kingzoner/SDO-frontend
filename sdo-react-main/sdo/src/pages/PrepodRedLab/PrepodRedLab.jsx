@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { IoIosClose } from "react-icons/io";
+import { IoFolderOpenOutline, IoCloudUploadOutline } from "react-icons/io5";
 import { labData } from "../../api/teacher-api";
 import { editLab } from "../../api/teacher-api";
 import { getLabs } from "../../api/teacher-api";
@@ -53,9 +54,9 @@ const UlMinBlock = styled.ul`
   flex-direction: column;
   gap: 30px;
   padding-top: ${({ $PaddingTopForm }) => ($PaddingTopForm ? "10px" : "15px")};
-  max-height: 420px; /* предотвращает выход списка за пределы блока */
-  overflow-y: auto;  /* добавляет прокрутку при большом количестве тестов */
-  padding-right: 8px; /* небольшой отступ под скроллбар */
+  max-height: 420px; 
+  overflow-y: auto;  
+  padding-right: 8px; 
 `;
 
 const UlList = styled.ul`
@@ -230,6 +231,63 @@ const TextStyle = styled.p`
   max-height: 30px;
 `;
 
+// Блок ввода тестов / загрузки .txt
+const TestsIOBlock = styled.div`
+  width: 1248px;
+  background-color: #d5def6;
+  border-radius: 7px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .tests-input-title {
+    font-family: "Montserrat";
+    font-size: 20px;
+    color: #000;
+  }
+  .tests-input {
+    background-color: #fff;
+    border-radius: 7px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hint {
+    font-family: "Montserrat";
+    font-size: 14px;
+    color: #000;
+  }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .tool-icon {
+    width: 28px;
+    height: 28px;
+    color: #656565;
+    cursor: pointer;
+  }
+
+  .textarea {
+    width: 98%;
+    height: 300px;
+    resize: vertical;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background: #f0f0f2;
+    font-family: "Montserrat";
+    font-size: 14px;
+    padding: 12px;
+    color: #000;
+  }
+`;
+
 const LaboratoryAdd = () => {
     const { id } = useParams(); // Получаем ID лабораторной работы из URL
     const [labTitle, setLabTitle] = useState("");
@@ -240,6 +298,7 @@ const LaboratoryAdd = () => {
     const [subjects, setSubjects] = useState([]); // Список предметов
     const [testCases, setTestCases] = useState([]);
     const [newTestCase, setNewTestCase] = useState({ inp: "", out: "" });
+    const [bulkTestsText, setBulkTestsText] = useState("");
     const [responseMessage, setResponseMessage] = useState("");
     const [error, setError] = useState("");
 
@@ -329,6 +388,42 @@ const LaboratoryAdd = () => {
         } else {
             setError("Заполните все поля тестового случая");
         }
+    };
+
+    // Импорт тестов из textarea по шаблону: input -> expected
+    const importTestsFromText = () => {
+        if (!bulkTestsText.trim()) return;
+        const lines = bulkTestsText.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+        const imported = [];
+        for (const line of lines) {
+            const [inp, out] = line.split(/\s*->\s*/);
+            if (typeof inp === "string" && typeof out === "string") {
+                imported.push({ id: Date.now() + Math.random(), inp, out });
+            }
+        }
+        if (imported.length) {
+            setTestCases((prev) => [...prev, ...imported]);
+            setBulkTestsText("");
+            setError("");
+        } else {
+            setError("Не удалось распознать тесты. Используйте формат: input -> expected_output");
+        }
+    };
+
+    // Загрузка .txt и помещение содержимого в textarea
+    const fileInputRef = React.useRef(null);
+    const onPickFile = () => fileInputRef.current?.click();
+    const onFileSelected = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (!file.name.toLowerCase().endsWith(".txt")) {
+            setError("Допустим только файл .txt");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => setBulkTestsText(String(reader.result || ""));
+        reader.readAsText(file, "utf-8");
+        setError("");
     };
 
     // Удаление тестового случая
@@ -460,6 +555,37 @@ const LaboratoryAdd = () => {
                         />
                     </div>
                 </List>
+
+                {/* Поле для ввода тестов / загрузки файла .txt */}
+                <TestsIOBlock>
+                    <p className="tests-input-title">Форма для ввода или загрузки тестов</p>
+                    <div className="tests-input">
+                        <TitleBlock $FontWeight>Введите тесты в формате:</TitleBlock>
+                        <div className="hint">input1 -&gt; expected_output1</div>
+                        <div className="hint">input2 -&gt; expected_output2</div>
+                        <div className="hint" style={{ marginTop: "8px" }}>или перетащите файл в формате .txt:</div>
+                        <div className="tools">
+                            <IoFolderOpenOutline className="tool-icon" onClick={onPickFile} />
+                            <IoCloudUploadOutline className="tool-icon" onClick={onPickFile} />
+                            <input
+                                type="file"
+                                accept=".txt"
+                                ref={fileInputRef}
+                                onChange={onFileSelected}
+                                style={{ display: "none" }}
+                            />
+                        </div>
+                        <div>
+                            <textarea
+                                className="textarea"
+                                placeholder="Введите код"
+                                value={bulkTestsText}
+                                onChange={(e) => setBulkTestsText(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <ButtonAdd onClick={importTestsFromText}>Импортировать тесты</ButtonAdd>
+                </TestsIOBlock>
 
                 {/* Список тестовых случаев */}
                 <BigBlock $BigFon $BigHeight $BigWeight $GapForm>
