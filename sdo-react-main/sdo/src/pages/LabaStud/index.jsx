@@ -217,6 +217,44 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
+const DeleteButton = styled.button`
+  background: none;
+  border: none;
+  color: #F44336;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+
+  &:hover {
+    color: #D32F2F;
+  }
+`;
+
+const SolutionItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #E0E0E0;
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const SolutionHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const SolutionTitle = styled.h2`
+  font-size: 16px;
+  font-family: "Montserrat";
+  margin: 0;
+`;
+
 const LabaStud = () => {
   const { taskId } = useParams();
   const [task, setTask] = useState(null);
@@ -314,6 +352,14 @@ const LabaStud = () => {
       });
   };
 
+  const handleDeleteSolution = (index) => {
+    setTask((prevTask) => ({
+      ...prevTask,
+      solutions: prevTask.solutions.filter((_, i) => i !== index),
+    }));
+    showNotification(true, 'Решение успешно удалено!');
+  };
+
   if (!task) {
     return <Container>Загрузка...</Container>;
   }
@@ -341,10 +387,16 @@ const LabaStud = () => {
               </ToggleButton>
             </div>
             {showSolutions && task.solutions.map((solution, index) => (
-              <div key={index}>
+              <SolutionItem key={index}>
+                <SolutionHeader>
+                  <SolutionTitle>Решение {index + 1}</SolutionTitle>
+                  <DeleteButton onClick={() => handleDeleteSolution(index)}>
+                    ✕
+                  </DeleteButton>
+                </SolutionHeader>
                 <SolutionCode>{solution.code}</SolutionCode>
                 <Text><strong>Статус решения:</strong> {solution.status}</Text>
-              </div>
+              </SolutionItem>
             ))}
           </SolutionContainer>
         )}
