@@ -11,6 +11,18 @@ const Section = styled.div`
   flex-direction: column;
   padding-top: 7%;
   padding: 40px 0px 245px;
+
+  /* планшеты и небольшие экраны */
+  @media (max-width: 768px) {
+    padding: 32px 24px 180px;
+    padding-top: 60px;
+  }
+
+  /* мобильный макет до 480px */
+  @media (max-width: 480px) {
+    padding: 32px 16px 140px;
+    padding-top: 60px;
+  }
 `;
 
 const SectionHeading = styled.h1`
@@ -29,11 +41,27 @@ const Form = styled.form`
 
   .section__login-formInput {
     width: 450px;
+    max-width: 100%;
     height: 35px;
     font-size: 16px;
     color: #252525;
     font-family: "Montserrat";
     outline: none;
+    box-sizing: border-box;
+  }
+
+  /* фиксированная / контролируемая ширина формы на средних и малых экранах */
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 420px;
+
+    .section__login-formInput {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    max-width: 360px;
   }
 `;
 
@@ -42,6 +70,17 @@ const ButtonsGroup = styled.div`
   flex-direction: column;
   gap: 10px;
   width: 458px;
+  max-width: 100%;
+  margin-top: 8px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 360px;
+  }
 `;
 
 const Button = styled.button`

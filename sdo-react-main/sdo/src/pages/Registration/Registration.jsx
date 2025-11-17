@@ -12,6 +12,18 @@ const Section = styled.div`
   flex-direction: column;
   padding-top: 7%;
   padding: 40px 0px 200px;
+
+  /* планшеты и небольшие экраны */
+  @media (max-width: 768px) {
+    padding: 32px 24px 160px;
+    padding-top: 60px;
+  }
+
+  /* мобильный макет до 480px */
+  @media (max-width: 480px) {
+    padding: 32px 16px 120px;
+    padding-top: 60px;
+  }
 `;
 
 const SectionHeading = styled.h1`
@@ -30,15 +42,18 @@ const Form = styled.form`
 
   .section__login-formInput {
     width: 450px;
+    max-width: 100%;
     height: 35px;
     font-size: 16px;
     color: #252525;
     font-family: "Montserrat";
     outline: none;
+    box-sizing: border-box;
   }
 
   .section__login-formSelect {
     width: 450px;
+    max-width: 100%;
     height: 35px;
     font-size: 16px;
     color: #252525;
@@ -48,6 +63,22 @@ const Form = styled.form`
     border-radius: 4px;
     padding: 0 10px;
     background-color: #fff;
+    box-sizing: border-box;
+  }
+
+  /* контролируемая ширина формы на средних и малых экранах */
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 420px;
+
+    .section__login-formInput,
+    .section__login-formSelect {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    max-width: 360px;
   }
 `;
 

@@ -16,6 +16,18 @@ const Wrapper = styled.section`
 
   padding: 40px 20px;
   box-sizing: border-box;
+
+  /* планшеты и небольшие экраны */
+  @media (max-width: 768px) {
+    min-height: calc(100vh - 220px);
+    padding: 32px 24px;
+  }
+
+  /* мобильный макет до 480px */
+  @media (max-width: 480px) {
+    min-height: calc(100vh - 200px);
+    padding: 32px 16px;
+  }
 `;
 
 const Hero = styled.div`
@@ -34,6 +46,33 @@ const Hero = styled.div`
     font-size: 20px;
     line-height: 32px;
     color: #000;
+  }
+
+  /* на средних экранах слегка уменьшаем шрифты */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 34px;
+      line-height: 1.3;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+
+  /* на маленьких экранах почти не уменьшаем размеры шрифтов,
+     чтобы текст не выглядел "съежившимся" */
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 32px;
+      line-height: 1.3;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 26px;
+    }
   }
 `;
 
