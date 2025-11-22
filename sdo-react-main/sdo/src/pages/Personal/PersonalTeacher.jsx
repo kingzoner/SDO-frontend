@@ -9,6 +9,34 @@ const SectionLab = styled.div`
   gap: 20px;
   justify-content: center;
   padding: 75px 0px 100px;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    padding: 60px 20px 80px;
+    gap: 18px;
+  }
+
+  @media (max-width: 900px) {
+    padding: 50px 20px 70px;
+    gap: 16px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px 80px;
+    gap: 30px;
+  }
+
+  @media (max-width: 570px) {
+    padding: 36px 16px 70px;
+    gap: 28px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 32px 16px 60px;
+    gap: 24px;
+  }
 `;
 
 const List = styled.li`
@@ -21,6 +49,37 @@ const List = styled.li`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    width: 300px;
+    height: 95px;
+  }
+
+  @media (max-width: 900px) {
+    width: 280px;
+    height: 90px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 500px;
+    min-height: 90px;
+    height: auto;
+    padding: 16px;
+  }
+
+  @media (max-width: 570px) {
+    max-width: 100%;
+    min-height: 85px;
+    padding: 14px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+    min-height: 80px;
+    padding: 12px;
+  }
 `;
 
 const ListSubject = styled.div`
@@ -35,8 +94,24 @@ const ListSubject = styled.div`
   justify-content: center;
   cursor: pointer;
   margin-bottom: 10px;
+  box-sizing: border-box;
   &:hover {
     background-color: #f0f0f0;
+  }
+
+  @media (max-width: 768px) {
+    height: auto;
+    min-height: 40px;
+    padding: 10px 20px;
+  }
+
+  @media (max-width: 570px) {
+    padding: 10px 18px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 16px;
+    font-size: 14px;
   }
 `;
 
@@ -46,6 +121,14 @@ const TextDiscipline = styled.p`
   margin: 0;
   text-align: center;
   color: #000;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 `;
 
 const BigList = styled.li`
@@ -57,11 +140,49 @@ const BigList = styled.li`
   align-items: center;
   padding: 20px;
   gap: 10px;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-width: 700px;
+    padding: 18px;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 600px;
+    padding: 18px 16px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px 16px;
+  }
+
+  @media (max-width: 570px) {
+    max-width: 100%;
+    padding: 18px 14px;
+    gap: 9px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+    padding: 16px 12px;
+    gap: 8px;
+  }
 `;
 
 const Text = styled.p`
   font-family: "Montserrat";
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 `;
 
 const TextDisciplines = styled.p`
@@ -70,6 +191,14 @@ const TextDisciplines = styled.p`
   align-items: center;
   text-align: center;
   font-weight: 600;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 `;
 
 const RowBlocks = styled.div`
@@ -77,6 +206,27 @@ const RowBlocks = styled.div`
   flex-direction: column;
   text-align: center;
   gap: 10px;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    gap: 9px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 500px;
+    gap: 10px;
+  }
+
+  @media (max-width: 570px) {
+    max-width: 100%;
+    gap: 11px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+    gap: 12px;
+  }
 `;
 
 const GroupsContainer = styled.div`
@@ -85,6 +235,15 @@ const GroupsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  box-sizing: border-box;
+
+  @media (max-width: 570px) {
+    gap: 9px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
 `;
 
 const PersonalTeacher = () => {

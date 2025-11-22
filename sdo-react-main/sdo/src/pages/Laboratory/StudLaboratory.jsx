@@ -11,11 +11,19 @@ const SectionLab = styled.div`
   align-items: center;
   gap: 10px;
   padding: 25px 0px 20px;
+  box-sizing: border-box;
+  width: 100%;
 
   .section__lab-blockSearch {
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 1270px;
+    padding: 0 20px;
+    box-sizing: border-box;
   }
 
   .section__lab-btn {
@@ -31,6 +39,9 @@ const SectionLab = styled.div`
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    box-sizing: border-box;
+    white-space: nowrap;
+    transition: all 0.3s ease;
   }
 
   .section__lab-btn:hover {
@@ -42,6 +53,57 @@ const SectionLab = styled.div`
     background: #BECBEE;
     color: #fff;
   }
+
+  @media (max-width: 768px) {
+    padding: 20px 0px 16px;
+    gap: 12px;
+
+    .section__lab-blockSearch {
+      padding: 0 16px;
+      gap: 8px;
+    }
+
+    .section__lab-btn {
+      width: auto;
+      flex: 1;
+      min-width: 0;
+      max-width: 280px;
+      font-size: 14px;
+      padding: 8px;
+    }
+  }
+
+  @media (max-width: 570px) {
+    padding: 16px 0px 12px;
+    gap: 10px;
+
+    .section__lab-blockSearch {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0 12px;
+    }
+
+    .section__lab-btn {
+      width: 100%;
+      max-width: 100%;
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 0px 10px;
+    gap: 8px;
+
+    .section__lab-blockSearch {
+      padding: 0 10px;
+      gap: 6px;
+    }
+
+    .section__lab-btn {
+      font-size: 12px;
+      padding: 8px 6px;
+    }
+  }
 `;
 
 const NameLab = styled.p`
@@ -49,15 +111,44 @@ const NameLab = styled.p`
   font-family: "Montserrat";
   font-size: 19px;
   margin: 0;
+  flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+
+  @media (max-width: 768px) {
+    font-size: 17px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 15px;
+  }
 `;
 
 const ListLab = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 1270px;
+  width: 100%;
+  max-width: 1270px;
   list-style: none;
-  padding: 0;
+  padding: 0 20px;
+  margin: 0;
+  box-sizing: border-box;
+
+  @media (max-width: 1300px) {
+    max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 12px;
+    gap: 10px;
+  }
 `;
 
 const LabItem = styled.li`
@@ -71,6 +162,27 @@ const LabItem = styled.li`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
+  gap: 15px;
+
+  @media (max-width: 768px) {
+    padding: 24px 20px;
+    font-size: 16px;
+    gap: 12px;
+  }
+
+  @media (max-width: 570px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 16px;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px 12px;
+    font-size: 15px;
+    gap: 10px;
+    border-radius: 6px;
+  }
 `;
 
 const TaskButton = styled.button`
@@ -83,15 +195,45 @@ const TaskButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 
   &:hover {
     background-color: #D9D9D9;
+  }
+
+  @media (max-width: 768px) {
+    width: 140px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 570px) {
+    width: 100%;
+    height: 38px;
+  }
+
+  @media (max-width: 480px) {
+    height: 34px;
+    font-size: 12px;
   }
 `;
 
 const SearchInputContainer = styled.div`
   position: relative;
   width: 335px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 335px;
+  }
+
+  @media (max-width: 570px) {
+    max-width: 100%;
+  }
 `;
 
 const SearchInput = styled.input`

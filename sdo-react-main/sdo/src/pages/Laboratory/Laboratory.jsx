@@ -11,6 +11,23 @@ import { getGroups } from "../../api/other-api";
 
 const Container = styled.div`
   padding: 0 200px;
+  box-sizing: border-box;
+
+  @media (max-width: 1200px) {
+    padding: 0 100px;
+  }
+
+  @media (max-width: 900px) {
+    padding: 0 50px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 16px;
+  }
 `;
 const Select = styled.select`
   width: 231px;
@@ -35,10 +52,13 @@ const SectionLab = styled.div`
   align-items: center;
   gap: 10px;
   padding: 0px 0px 20px;
+  box-sizing: border-box;
+
   .section__lab-blockSearch {
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .section__lab-input {
@@ -49,6 +69,7 @@ const SectionLab = styled.div`
     border-style: none;
     border-radius: 4px;
     font-size: 16px;
+    box-sizing: border-box;
   }
 
   .section__lab-input:focus {
@@ -71,6 +92,10 @@ const SectionLab = styled.div`
     background: #f0f0f0;
     border-style: none;
     border-radius: 4px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .section__groups-button {
@@ -85,6 +110,7 @@ const SectionLab = styled.div`
     background: #f0f0f0;
     border-style: none;
     border-radius: 4px;
+    box-sizing: border-box;
   }
 
   .section__lab-button:hover {
@@ -116,8 +142,51 @@ const SectionLab = styled.div`
     color: #000;
     text-align: center;
     border-radius: 8px;
+    box-sizing: border-box;
     &:focus {
       outline: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0px 16px 20px;
+    gap: 12px;
+
+    .section__lab-button {
+      width: 100%;
+      max-width: 395px;
+      font-size: 14px;
+    }
+
+    .section__groups-button {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .section__login-formSelect {
+      width: 100%;
+      max-width: 200px;
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0px 12px 20px;
+    gap: 10px;
+
+    .section__lab-button {
+      font-size: 13px;
+      padding: 8px;
+    }
+
+    .section__groups-button {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    .section__login-formSelect {
+      font-size: 14px;
+      height: 42px;
     }
   }
 `;
@@ -129,12 +198,63 @@ const NameLab = styled.p`
   font-weight: bold;
   font-family: "Montserrat";
   font-size: 19px;
+  margin-right: 10px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: 768px) {
+    font-size: 17px;
+    margin-left: 12px;
+    margin-right: 8px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 15px;
+    margin-left: 8px;
+    margin-right: 6px;
+  }
 `;
 
 const ListLab = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+  max-width: 1236px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+
+  @media (max-width: 1300px) {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .section__lab-page {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 7px;
+
+    @media (max-width: 768px) {
+      padding: 16px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 12px;
+    }
+  }
 `;
 
 const ButtonDelete = styled.button`
@@ -149,6 +269,8 @@ const ButtonDelete = styled.button`
   font-family: "Montserrat";
   font-size: 16px;
   border: 0px solid #000;
+  box-sizing: border-box;
+  flex-shrink: 0;
 
   &:hover {
     background: #ff7070;
@@ -156,14 +278,33 @@ const ButtonDelete = styled.button`
     border-style: none;
     transition: 0.5s;
   }
+
+  @media (max-width: 768px) {
+    width: 150px;
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  @media (max-width: 570px) {
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    padding: 8px;
+  }
 `;
 
 const SpnLab = styled.span`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+
   .section__lab-edit {
     padding: 10px;
-    margin: auto 30px;
+    margin: 0;
     width: 180px;
     background-color: white;
     color: #000;
@@ -176,12 +317,45 @@ const SpnLab = styled.span`
     font-family: "Montserrat";
     font-size: 16px;
     transition: background 0.5s, color 0.5s;
+    box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   .section__lab-edit:hover {
     background: #c8d5f6;
     color: #fff;
     border-style: none;
+  }
+
+  @media (max-width: 768px) {
+    gap: 8px;
+    margin-top: 12px;
+
+    .section__lab-edit {
+      width: 150px;
+      font-size: 14px;
+      padding: 8px;
+    }
+  }
+
+  @media (max-width: 570px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+
+    .section__lab-edit {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    gap: 6px;
+    margin-top: 10px;
+
+    .section__lab-edit {
+      font-size: 13px;
+      padding: 8px;
+    }
   }
 `;
 
@@ -200,10 +374,33 @@ const PublishButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0px 30px 0px auto;
+  margin: 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   &:hover {
     background-color: #a3c8d1;
     transition: 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    width: 150px;
+    font-size: 14px;
+    padding: 8px;
+    height: 36px;
+  }
+
+  @media (max-width: 570px) {
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    padding: 8px;
+    height: 34px;
   }
 `;
 const SearchInput = styled.input`
@@ -237,10 +434,41 @@ const SearchContainer = styled.div`
   margin: 40px 0px 0px 40px;
   justify-content: space-between;
   width: 1236px;
+  gap: 10px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+
+  @media (max-width: 1300px) {
+    width: 100%;
+    max-width: 1236px;
+    margin: 40px 20px 0px 20px;
+  }
+
+  @media (max-width: 768px) {
+    margin: 30px 0px 0px 0px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  @media (max-width: 480px) {
+    margin: 20px 0px 0px 0px;
+    gap: 10px;
+  }
 `;
 const SearchInputContainer = styled.div`
   position: relative;
   width: 395px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 395px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+  }
 `;
 
 const Notification = styled.div`
