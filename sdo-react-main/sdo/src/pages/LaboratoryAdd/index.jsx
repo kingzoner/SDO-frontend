@@ -7,51 +7,99 @@ import { createLab, getSubjects } from "../../api/teacher-api";
 const Section = styled.form`
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  padding: 16px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
 `;
 
 const BigBlock = styled.div`
-  width: ${({ $BigWeight }) => ($BigWeight ? "1248px" : "1247px")};
-  height: ${({ $BigHeight }) => ($BigHeight ? "530px" : "375px")};
+  width: 100%;
+  max-width: 1248px;
+  min-height: ${({ $BigHeight }) => ($BigHeight ? "530px" : "auto")};
   background-color: ${({ $BigFon }) => ($BigFon ? "#E2EDD0" : "#D5DEF6")};
   border-radius: 10px;
   display: flex;
-  gap: ${({ $GapForm }) => ($GapForm ? "75px" : "0px")};
+  gap: ${({ $GapForm }) => ($GapForm ? "60px" : "16px")};
+  padding: 20px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+
   .block__test {
-    width: 540px;
+    width: 100%;
+    max-width: 540px;
     display: flex;
     flex-direction: column;
     margin-top: 5px;
+    box-sizing: border-box;
   }
   .block__one {
     margin-top: 5px;
+    flex: 1 1 320px;
+    min-width: 280px;
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 20px;
+    min-height: auto;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px;
+    gap: 16px;
   }
 `;
 
 const MinBlock = styled.li`
-  width: 592px;
-  height: 102px;
+  width: 100%;
+  max-width: 592px;
+  min-height: 102px;
+  height: auto;
   border-radius: 10px;
   background-color: #ffffff;
-  padding: 10px;
+  padding: 12px;
   list-style-type: none;
   position: relative;
+  box-sizing: border-box;
+
   .icon {
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: 8px;
+    right: 12px;
     cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 `;
 
 const UlMinBlock = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   padding-top: ${({ $PaddingTopForm }) => ($PaddingTopForm ? "10px" : "15px")};
   max-height: 420px;
   overflow-y: auto;
   padding-right: 8px;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    max-height: 360px;
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    max-height: 320px;
+  }
 `;
 
 const UlList = styled.ul`
@@ -59,21 +107,27 @@ const UlList = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
   gap: 25px;
-  max-width: 1241px;
+  max-width: 1248px;
   width: 100%;
   margin: 0 auto;
+  padding: 0 16px 24px;
+  box-sizing: border-box;
+  list-style: none;
 
   .editing__container {
-    width: 608px;
-    height: 260px;
+    width: 100%;
+    max-width: 608px;
+    min-height: 240px;
     background: #e2edd0;
     border-radius: 7px;
     list-style-type: none;
     display: flex;
     align-items: center;
+    box-sizing: border-box;
   }
   .editing__block-Two {
     padding: 0px 30px 30px 20px;
+    box-sizing: border-box;
   }
   .editing__block-text {
     color: #000;
@@ -92,9 +146,12 @@ const UlList = styled.ul`
     outline: none;
     margin-left: 5px;
     font-family: "Montserrat";
+    width: 100%;
+    max-width: 320px;
   }
   .editing__block-input {
-    width: 555px;
+    width: 100%;
+    max-width: 555px;
     height: 60px; /* как в PrepodRedLab */
     border-radius: 7px;
     border-style: none;
@@ -105,25 +162,33 @@ const UlList = styled.ul`
     outline: none;
     background: #fff;
     padding: 8px 12px;
+    box-sizing: border-box;
   }
   .editing__block-bth {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
   }
   .editing__block {
     padding: 0px 30px 0px 20px;
     display: flex;
-    gap: 75px;
+    gap: 60px;
     align-items: baseline;
+    box-sizing: border-box;
   }
   .editing__block-name {
     display: flex;
     align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
   }
   .block__button {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    max-width: 1248px;
+    box-sizing: border-box;
   }
   .block__end {
     display: flex;
@@ -131,12 +196,15 @@ const UlList = styled.ul`
     gap: 5px;
     background-color: #e2edd0;
     border-radius: 5px;
-    width: 1248px;
-    height: 117px;
+    width: 100%;
+    max-width: 1248px;
+    min-height: 110px;
     justify-content: center;
     border-style: none;
     align-items: center;
     cursor: pointer;
+    box-sizing: border-box;
+    padding: 12px;
     &:hover {
       background-color: #d7ebb5eb;
     }
@@ -149,29 +217,100 @@ const UlList = styled.ul`
     text-decoration: none;
     display: flex;
     justify-content: center;
-    width: 1248px;
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    gap: 18px;
+    padding: 0 12px 20px;
+
+    .editing__block {
+      gap: 30px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .editing__container {
+      height: auto;
+      min-height: 220px;
+      padding: 12px 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .editing__block-Two {
+      padding: 0px 18px 20px 14px;
+    }
+    .editing__block-input {
+      font-size: 14px;
+      height: 52px;
+    }
+    .editing__block-text {
+      font-size: 14px;
+    }
+    .block__end {
+      min-height: 100px;
+    }
+  }
+
+  @media (max-width: 570px) {
+    .editing__block-bth {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .some-input {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    gap: 14px;
+    .block__end-link {
+      font-size: 14px;
+      line-height: 22px;
+    }
   }
 `;
 
 const List = styled.li`
-  width: ${({ $Block }) => ($Block ? "1248px" : "608px")};
-  height: ${({ $Block }) => ($Block ? "59px" : "260px")};
+  width: 100%;
+  max-width: ${({ $Block }) => ($Block ? "1248px" : "608px")};
+  min-height: ${({ $Block }) => ($Block ? "59px" : "260px")};
+  height: auto;
   background-color: ${({ $Block }) => ($Block ? "#D9D9D9" : "#D5DEF6")};
   border-radius: 7px;
   display: flex;
   align-items: center;
   list-style-type: none;
+  box-sizing: border-box;
+  padding: 8px 0;
+
+  @media (max-width: 900px) {
+    max-width: 100%;
+  }
 `;
 
 const NameLabInput = styled.input`
   display: flex;
   border: none;
   background: none;
-  width: 608px;
-  height: 260px;
+  width: 100%;
+  max-width: 608px;
+  min-height: 120px;
+  height: auto;
   font-size: 18px;
-  padding: 0px 0px 0px 30px;
+  padding: 10px 12px 10px 18px;
   outline: none;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    min-height: 100px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 15px;
+    min-height: 90px;
+  }
 `;
 
 const TitleBlock = styled.h3`
@@ -182,6 +321,17 @@ const TitleBlock = styled.h3`
   line-height: ${({ $LineHeight }) => ($LineHeight ? "45px" : "27px")};
   padding-left: ${({ $Padding }) => ($Padding ? "45px" : "0px")};
   margin: ${({ $Margin }) => ($Margin ? "0px" : "none")};
+
+  @media (max-width: 768px) {
+    font-size: ${({ $FontSize }) => ($FontSize ? "15px" : "17px")};
+    line-height: ${({ $LineHeight }) => ($LineHeight ? "36px" : "24px")};
+    padding-left: ${({ $Padding }) => ($Padding ? "30px" : "0px")};
+  }
+
+  @media (max-width: 480px) {
+    font-size: ${({ $FontSize }) => ($FontSize ? "14px" : "16px")};
+    padding-left: ${({ $Padding }) => ($Padding ? "18px" : "0px")};
+  }
 `;
 
 const ButtonAdd = styled.button`
@@ -193,11 +343,31 @@ const ButtonAdd = styled.button`
   background: #fff;
   height: 42px;
   cursor: pointer;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
   &:hover {
     background: #c8d5f6;
     color: #fff;
     border-style: none;
     transition: 0.5s;
+  }
+
+  @media (max-width: 768px) {
+    width: ${({ $ButtonAddW }) => ($ButtonAddW ? "260px" : "220px")};
+    height: 38px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 570px) {
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    height: 36px;
   }
 `;
 
@@ -222,7 +392,8 @@ const FormInput = styled.input`
 
 const SubjectSelect = styled.select`
   font-family: "Montserrat";
-  width: 555px;
+  width: 100%;
+  max-width: 555px;
   height: 45px;
   border-radius: 5px;
   background: #ffffff;
@@ -232,6 +403,17 @@ const SubjectSelect = styled.select`
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    font-size: 15px;
+    height: 42px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    height: 40px;
+  }
 `;
 
 const Notification = styled.div`

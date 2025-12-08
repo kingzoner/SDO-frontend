@@ -105,6 +105,14 @@ const Nav = styled.nav`
     background-color: #dde5f9;
     transform: translateY(-1px);
   }
+  @media (max-width: 2560px) {
+    .label-full {
+      display: inline;
+    }
+    .label-short {
+      display: none;
+    }
+  }
 
   @media (max-width: 1200px) {
     padding: 18px 0 28px 0;
@@ -115,6 +123,12 @@ const Nav = styled.nav`
       padding: 0 20px;
       height: 36px;
       font-size: 15.5px;
+    }
+    .label-full {
+      display: inline;
+    }
+    .label-short {
+      display: none;
     }
   }
 
@@ -128,6 +142,12 @@ const Nav = styled.nav`
       height: 35px;
       font-size: 15px;
     }
+    .label-full {
+      display: inline;
+    }
+    .label-short {
+      display: none;
+    }
   }
 
   @media (max-width: 900px) {
@@ -139,6 +159,12 @@ const Nav = styled.nav`
       padding: 0 16px;
       height: 34px;
       font-size: 14.5px;
+    }
+    .label-full {
+      display: inline;
+    }
+    .label-short {
+      display: none;
     }
   }
 
@@ -152,6 +178,12 @@ const Nav = styled.nav`
       height: 33px;
       font-size: 13.5px;
     }
+    .label-full {
+      display: inline;
+    }
+    .label-short {
+      display: none;
+    }
   }
 
   @media (max-width: 640px) {
@@ -163,6 +195,12 @@ const Nav = styled.nav`
       padding: 0 12px;
       height: 32px;
       font-size: 13px;
+    }
+    .label-full {
+      display: inline;
+    }
+    .label-short {
+      display: none;
     }
   }
 
@@ -178,6 +216,15 @@ const Nav = styled.nav`
       font-size: 12px;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .label-full {
+      display: none;
+    }
+    .label-short {
+      display: inline;
     }
   }
 
@@ -194,6 +241,14 @@ const Nav = styled.nav`
       border-radius: 5px;
       overflow: hidden;
       text-overflow: ellipsis;
+      justify-content: center;
+      align-items: center;
+    }
+    .label-full {
+      display: none;
+    }
+    .label-short {
+      display: inline;
     }
   }
 
@@ -210,6 +265,14 @@ const Nav = styled.nav`
       border-radius: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
+      justify-content: center;
+      align-items: center;
+    }
+    .label-full {
+      display: none;
+    }
+    .label-short {
+      display: inline;
     }
   }
 `;
@@ -362,11 +425,13 @@ const Header = ({ setIsLoggedIn, isLoggedIn }) => {
             {isLoggedIn ? (
               <>
                 <Link to={getPersonalAccount()} className="header__nav-lr">
-                  Личный кабинет
+                  <span className="label-full">Личный кабинет</span>
+                  <span className="label-short">Лич. кабинет</span>
                 </Link>
 
                 <Link to={getLaboratoryRoute()} className="header__nav-lr">
-                  Лабораторные работы
+                  <span className="label-full">Лабораторные работы</span>
+                  <span className="label-short">Лаб. работы</span>
                 </Link>
 
                 <ButtonEx onClick={handleLogout}>
@@ -375,7 +440,8 @@ const Header = ({ setIsLoggedIn, isLoggedIn }) => {
               </>
             ) : (
               <Link to="/login" className="header__nav-lr">
-                Войти
+                <span className="label-full">Войти</span>
+                <span className="label-short">Войти</span>
               </Link>
             )}
           </Nav>
