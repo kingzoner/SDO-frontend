@@ -61,7 +61,7 @@ const StatBox = styled.div`
   border-radius: 6px;
   padding: 15px 20px;
   color: #000;
-  width: 220px;
+  width: 100%;
   text-align: center;
   font-size: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
