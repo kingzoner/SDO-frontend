@@ -42,6 +42,7 @@ const SectionLab = styled.div`
     box-sizing: border-box;
     white-space: nowrap;
     transition: all 0.3s ease;
+    overflow: hidden;
   }
 
   .section__lab-btn:hover {

@@ -11,7 +11,8 @@ const StudentsContainer = styled.div`
 `;
 
 const GroupHeader = styled.div`
-  width: 1480px;
+  max-width: 1480px;
+  width: 100%;
   font-family: "Montserrat";
   font-size: 24px;
   font-weight: bold;
@@ -22,7 +23,8 @@ const GroupHeader = styled.div`
 `;
 
 const StudentList = styled.ul`
-  width: 1480px;
+  max-width: 1480px;
+  width: 100%;
   list-style: none;
   padding: 0;
   display: flex;

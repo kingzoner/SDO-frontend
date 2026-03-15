@@ -671,7 +671,7 @@ const LaboratoryAdd = () => {
               </ButtonAdd>
             </div>
           </BigBlock>
-          <List style={{ width: "463px" }}>
+          <List>
             <div
               className="editing__block-Two"
               style={{
@@ -688,7 +688,6 @@ const LaboratoryAdd = () => {
                 type="number"
                 placeholder="Максимальное количество попыток"
                 min="1"
-                style={{ width: "396px" }}
               />
               <div
                 className="editing__block-bth"
