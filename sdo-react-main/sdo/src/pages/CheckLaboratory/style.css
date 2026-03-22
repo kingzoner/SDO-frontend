@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&family=Montserrat:wght@500&display=swap");
+.mainWindow {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 1480px;
+  height: 535px;
+  margin: 0px 0px 0px 0px;
+  background-color: #c8d5f6;
+  border-radius: 4px;
+}
+
+body {
+  align-items: center;
+  justify-content: center;
+}

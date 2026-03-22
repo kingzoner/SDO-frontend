@@ -1,11 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&family=Montserrat:wght@500&display=swap');
 
 .section__lab-page{
-    width: 1246px;
-    height: 120px;
+    width: 100%;
+    max-width: 1246px;
+    min-height: 120px;
+    height: auto;
     background: rgba(226, 237, 208, 0.55);
     border-radius: 10px;
     list-style: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+@media (max-width: 1300px) {
+    .section__lab-page {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .section__lab-page {
+        min-height: auto;
+        padding: 16px;
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section__lab-page {
+        padding: 12px;
+        border-radius: 6px;
+    }
 }
 
 

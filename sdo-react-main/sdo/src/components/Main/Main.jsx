@@ -10,11 +10,21 @@ const Section = styled.section`
     flex-direction: column;
     align-items: center;
     padding: 40px 0px 245px;
-`
+
+    /* планшеты и небольшие экраны */
+    @media (max-width: 768px) {
+      padding: 32px 24px 180px;
+    }
+
+    /* мобильный макет до 480px */
+    @media (max-width: 480px) {
+      padding: 32px 16px 140px;
+    }
+`;
 const SectionHead = styled.h1`
     color: #000;
     font-family: 'Montserrat';
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 500;
     line-height: 27px; 
 `
@@ -24,24 +34,49 @@ const Block = styled.div`
     padding-top: 35px;
 
     .section__block-btn{
-    width: 395px;
-    height: 138px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Montserrat';
-    cursor: pointer;
-    text-decoration: none;
-    color: #000;
-    border-radius: 7px;
-    background: #E2EDD0;
+      width: 400px;
+      max-width: 100%;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat';
+      font-size: 24px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #000;
+      border-radius: 7px;
+      background: #E2EDD0;
     }
     .section__block-btn:hover{
         background: #C8D5F6;
         color: #FFF;
         transition: 0.3s;
     }
-`
+
+    /* до 768px кнопки становятся колонкой и имеют контролируемую ширину */
+    @media (max-width: 768px) {
+      flex-direction: column;
+      width: 100%;
+      max-width: 420px;
+      margin: 24px auto 0;
+      align-items: stretch;
+
+      .section__block-btn{
+        width: 100%;
+        height: 130px;
+        font-size: 22px;
+      }
+    }
+
+    /* до 480px слегка уменьшаем размер */
+    @media (max-width: 480px) {
+      .section__block-btn{
+        height: 120px;
+        font-size: 20px;
+      }
+    }
+`;
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -71,7 +106,7 @@ const Main = () => {
               to="/login" 
               onClick={() => handleLogin('teacher')}
             > 
-              Преподователь
+              Преподаватель
             </Link>
           </Block>
         </Section>

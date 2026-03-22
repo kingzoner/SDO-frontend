@@ -46,12 +46,13 @@ class TestModel(BaseModel):
     functions: List[FunctionModel] | None = Field(default=None, description="Test case for function testing")
     constructions: List[ConstructionModel] | None = Field(default=None, description="List of constructions for check")
     length_checks: List[CodeLengthModel] | None = Field(default=None, description="Code length checks")
-    
+
 
 class TestOutput(BaseModel):
     id: int = Field(description="Task id")
     task_description: str = Field(description="Task description", max_length=1024)
     task_text: str = Field(description="Task name", max_length=1024)
+
 
 class QueryData(BaseModel):
     lab_task: TestModel = Field(description="Test task")
@@ -79,6 +80,10 @@ class RegisterRequestModel(BaseModel):
     group_name: str = Field(description="Students group name")
 
 
+class UserRole(BaseModel):
+    status: Literal["admin", "teacher", "student"] = Field(description="User role")
+
+
 class UserResponseModel(BaseModel):
     id: int = Field(description="User ID")
     username: str = Field(description="User login")
@@ -103,7 +108,7 @@ class StudyGroupRequestModel(BaseModel):
 class StudyGroupResponseModel(BaseModel):
     id: int = Field(description="Group ID")
     name: str = Field(description="Group name")
-    
+
 
 class PyTestModel(BaseModel):
     taskDescription: str = Field(description="Task description", max_length=1024)
@@ -114,14 +119,18 @@ class PyTestModel(BaseModel):
 class PyTestQueryData(BaseModel):
     labTask: PyTestModel = Field(description="Test task")
 
+
 class CheckProgram(BaseModel):
     code: str = Field(description="Code for checking")
-    
+
+
 class TaskInfo(BaseModel):
     taskDecsription: str
     defName: str
 
+
 __all__ = ["TestModel", "CodeLengthModel", "ConstructionModel", "FunctionModel", "FormulaModel", "LinkedFormulaModel",
            "TestCaseModel", "QueryData", "CheckModel", "PyTestQueryData",
-           "UserModel", "UserResponseModel", "UserDashboardModel", "RegisterRequestModel", "LoginRequestModel", "TeacherDashboardModel",
+           "UserModel", "UserResponseModel", "UserRole", "UserDashboardModel", "RegisterRequestModel",
+           "LoginRequestModel", "TeacherDashboardModel",
            "StudyGroupRequestModel", "StudyGroupResponseModel", "PyTestModel", "CheckProgram", "TaskInfo", "TestOutput"]

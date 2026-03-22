@@ -1,6 +1,6 @@
 import requests
 
-URL = 'http://127.0.0.1:8000'
+URL = 'http://127.0.0.1:8040'
 SESSION = requests.Session()
 
 def create_group(name):

@@ -1,7 +1,7 @@
 import subprocess
 from base64 import b64encode
 from typing import Dict, Any, List, Type
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
@@ -84,6 +84,18 @@ def login_for_access_token(login_request: LoginRequestModel):
         "access_token": access_token
     }
     return response
+
+
+@app.get("/user_status", response_model=UserRole)
+def get_user_status(request: Request):
+    access_token = request.headers.get("authorization").split(" ")[1]
+    decode_data = jwt.decode(jwt=access_token,
+                             key="test",
+                             algorithms=['HS256'])
+    user_role = decode_data.get('role')
+    return UserRole(
+        status=user_role,
+    )
 
 
 @app.get("/user_dashboard", response_model=UserDashboardModel)
