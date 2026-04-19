@@ -17,7 +17,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1248px;
+  width: 100%;
 `;
 
 const TitleText = styled.p`
@@ -35,21 +35,21 @@ const StatusMarker = styled.div`
 `;
 
 const BlockTest = styled.div`
-  width: 1248px;
+  width: 100%;
   background-color: #F0F0F0;
   border-radius: 7px;
   padding: 15px;
 `;
 
 const BlockDescription = styled.div`
-  width: 1248px;
+  width: 100%;
   background-color: #E0E0E0;
   border-radius: 7px;
   padding: 15px;
 `;
 
 const BlockTask = styled.div`
-  width: 1248px;
+  width: 100%;
   background-color: #D9D9D9;
   padding: 10px;
   border-radius: 7px;
@@ -100,7 +100,7 @@ const ToggleButton = styled.button`
 
 const Button = styled.button`
   padding: 10px;
-  width: 525px;
+  width: 100%;
   height: 91px;
   background-color: #fff;
   border-style: none;
@@ -121,8 +121,9 @@ const Button = styled.button`
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 20px;
+  width: 100%;
 `;
 
 const UploadTitle = styled.div`

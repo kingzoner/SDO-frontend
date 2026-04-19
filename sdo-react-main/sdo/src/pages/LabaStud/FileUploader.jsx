@@ -18,7 +18,7 @@ const Label = styled.label`
   text-align: center;
   border-radius: 7px;
   margin-top: 10px;
-  width: 1098px;
+  width: 100%;
   transition: background-color 0.3s;
   background-color: #FFFFFF;
 
