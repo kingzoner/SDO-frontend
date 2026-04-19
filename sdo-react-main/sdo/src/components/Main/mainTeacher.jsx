@@ -1,3 +1,4 @@
+import TeacherDisciplines from "../Teacher/TeacherDisciplines";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -13,15 +14,18 @@ const MainTeacher = () => {
     const navigate = useNavigate();
 
     const disciplines = [
-        { id: 1, name: "Математика" },
-        { id: 2, name: "Физика" },
-        { id: 3, name: "Программирование" }
+        { id: 1, name: "C++" },
+        { id: 2, name: "Python" },
+        { id: 3, name: "Java" },
+        { id: 4, name: "C#" }
     ];
 
     return (
         <Section>
 
-            <h1>Страница Препода</h1>
+            return (
+            <TeacherDisciplines />
+            );
 
             {disciplines.map(discipline => (
                 <button
