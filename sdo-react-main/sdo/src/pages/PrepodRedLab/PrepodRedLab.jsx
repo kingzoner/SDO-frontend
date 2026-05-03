@@ -7,6 +7,7 @@ import { IoFolderOpenOutline, IoCloudUploadOutline } from "react-icons/io5";
 import { labData } from "../../api/teacher-api";
 import { editLab } from "../../api/teacher-api";
 import { getLabs } from "../../api/teacher-api";
+import { getGroups } from "../../api/teacher-api";
 
 // Стили
 const Section = styled.section`
@@ -293,13 +294,14 @@ const List = styled.li`
   }
 `;
 
-const NameLabInput = styled.input`
-  display: flex;
+const NameLabBlock = styled.div`
+  display: block;
   border: none;
   background: none;
+  background-color: #d5def6;
   width: 100%;
-  max-width: 608px;
-  min-height: 120px;
+  max-width: 1248px;
+  min-height: 220px;
   height: auto;
   font-size: 18px;
   padding: 10px 12px 10px 18px;
@@ -308,12 +310,12 @@ const NameLabInput = styled.input`
 
   @media (max-width: 768px) {
     font-size: 16px;
-    min-height: 100px;
+    min-height: 200px;
   }
 
   @media (max-width: 480px) {
     font-size: 15px;
-    min-height: 90px;
+    min-height: 190px;
   }
 `;
 
@@ -509,6 +511,8 @@ const LaboratoryAdd = () => {
     const [inputVariables, setInputVariables] = useState(""); // Новое состояние
     const [subjectId, setSubjectId] = useState(null); // Состояние для subject_id
     const [subjects, setSubjects] = useState([]); // Список предметов
+    const [selectedGroup, setSelectedGroup] = useState("")
+    const [groups, setGroups] = useState([]);
     const [testCases, setTestCases] = useState([]);
     const [newTestCase, setNewTestCase] = useState({ inp: "", out: "" });
     const [bulkTestsText, setBulkTestsText] = useState("");
@@ -531,6 +535,7 @@ const LaboratoryAdd = () => {
                     setTeacherFormula(lab.teacher_formula || ""); // Заполняем формулу
                     setInputVariables(lab.input_variables || ""); // Заполняем переменные
                     setSubjectId(lab.subject_id || null);
+                    setSelectedGroup(lab.group_id)
                     setTestCases(lab.test_cases || []);
                     setResponseMessage("Данные лабораторной работы загружены!");
                 } else {
@@ -553,9 +558,21 @@ const LaboratoryAdd = () => {
             });
         };
 
+        const fetchGroups = async () => {
+            getLabs().then((response) => {
+                if (response.status === 200) {
+                    setGroups(response.data || []);
+                } else {
+                    console.error("Ошибка при загрузке списка групп:", error);
+                    setError("Не удалось загрузить список групп");
+                }
+            });
+        };
+
         if (id) {
             fetchLabData();
             fetchSubjects();
+            fetchGroups();
         }
     }, [id]);
 
@@ -582,6 +599,10 @@ const LaboratoryAdd = () => {
     // Обработка изменения предмета
     const handleSubjectChange = (event) => {
         setSubjectId(Number(event.target.value));
+    };
+
+    const handleGroupChange = (event) => {
+        setSelectedGroup(Number(event.target.value));
     };
 
     // Обработка изменения полей нового тестового случая
@@ -667,7 +688,8 @@ const LaboratoryAdd = () => {
                 description: labDescription,
                 teacher_formula: teacherFormula, // Используем новое состояние
                 input_variables: inputVariables, // Используем новое состояние
-                subject_id: subjectId,
+                subject_id: parseInt(subjectId),
+                group_id: parseInt(selectedGroup),
                 test_cases: testCases.map((test) => ({
                     id: test.id,
                     inp: test.inp,
@@ -696,76 +718,44 @@ const LaboratoryAdd = () => {
 
     return (
         <Section>
+          <NameLabBlock>
+            <p>
+              Вы находитесь в режиме редактирования:
+            </p>
+            <h1>
+              {subjectId.name} {labTitle.name}
+            </h1>
+          </NameLabBlock>
             <UlList>
-                {/* Название лабораторной работы */}
-                <List>
-                    <NameLabInput
-                        type="text"
-                        placeholder="Введите название лабораторной работы"
-                        value={labTitle}
-                        onChange={handleLabTitleChange}
-                    />
-                </List>
-
-                {/* Формула преподавателя */}
-                <List>
-                    <div className="editing__block-Two">
-                        <TitleBlock>Формула преподавателя:</TitleBlock>
-                        <input
-                            className="editing__block-input"
-                            type="text"
-                            value={teacherFormula}
-                            onChange={handleTeacherFormulaChange}
-                            placeholder="Введите формулу"
-                        />
-                    </div>
-                </List>
-
-                {/* Входные переменные */}
-                <List>
-                    <div className="editing__block-Two">
-                        <TitleBlock>Входные переменные:</TitleBlock>
-                        <input
-                            className="editing__block-input"
-                            type="text"
-                            value={inputVariables}
-                            onChange={handleInputVariablesChange}
-                            placeholder="Введите переменные через запятую"
-                        />
-                    </div>
-                </List>
-
-                {/* Выбор предмета */}
-                <List>
-                    <div className="editing__block-Two">
-                        <TitleBlock>Выберите предмет:</TitleBlock>
-                        <SubjectSelect value={subjectId || ""} onChange={handleSubjectChange}>
-                            <option value="" disabled>
-                                Выберите предмет
-                            </option>
-                            {subjects.map((subject) => (
-                                <option key={subject.id} value={subject.id}>
-                                    {subject.name}
-                                </option>
-                            ))}
-                        </SubjectSelect>
-                    </div>
-                </List>
-
                 {/* Описание лабораторной работы */}
                 <List>
                     <div className="editing__block-Two">
-                        <TitleBlock>Формат ввода данных:</TitleBlock>
+                        <TitleBlock>Описание лабораторной работы</TitleBlock>
                         <p className="editing__block-text">
-                            Вы можете пояснить, как будет происходить ввод данных
                         </p>
                         <input
                             className="editing__block-input"
                             type="text"
                             value={labDescription}
                             onChange={handleLabDescriptionChange}
-                            placeholder="Введите текст"
+                            placeholder="Введите описание лабораторной работы"
                         />
+                    </div>
+                </List>
+
+                <List>
+                    <div className="editing__block-Two">
+                        <TitleBlock>Выберите группу:</TitleBlock>
+                        <SubjectSelect value={selectedGroup || ""} onChange={handleGroupChange}>
+                            <option value="" disabled>
+                                Выберите группу
+                            </option>
+                            {groups.map((group) => (
+                                <option key={group.id} value={group.id}>
+                                    {group.name}
+                                </option>
+                            ))}
+                        </SubjectSelect>
                     </div>
                 </List>
 
