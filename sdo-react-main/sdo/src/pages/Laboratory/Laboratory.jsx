@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
@@ -6,6 +6,7 @@ import {
   getStudentsLabs,
   deleteLab,
   toggleStatusLab,
+  getSubjects,
 } from "../../api/teacher-api";
 import { getGroups } from "../../api/other-api";
 
@@ -316,7 +317,9 @@ const SpnLab = styled.span`
     text-decoration: none;
     font-family: "Montserrat";
     font-size: 16px;
-    transition: background 0.5s, color 0.5s;
+    transition:
+      background 0.5s,
+      color 0.5s;
     box-sizing: border-box;
     flex-shrink: 0;
   }
@@ -483,7 +486,9 @@ const Notification = styled.div`
   background-color: #28a745;
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   transform: translateY(${({ visible }) => (visible ? "0" : "20px")});
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
   z-index: 1000;
 
   &.error {
@@ -508,6 +513,8 @@ const TextStyle = styled.p`
 
 const Laboratory = () => {
   const [labItems, setLabItems] = useState([]);
+  const [labItemsToShow, setLabItemsToShow] = useState([]);
+
   const [searchValue, setSearchValue] = useState("");
   const [notification, setNotification] = useState({
     message: "",
@@ -515,6 +522,8 @@ const Laboratory = () => {
     isError: false,
   });
   const [groups, setGroups] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const { SubjectId } = useParams();
 
   const handleSearch = () => {
     console.log("Поиск запущен!");
@@ -529,6 +538,7 @@ const Laboratory = () => {
       const response = await getStudentsLabs();
       if (response.status === 200) {
         setLabItems(response.data);
+        setLabItemsToShow(response.data);
       } else {
         throw new Error("Failed to fetch unpublished labs");
       }
@@ -572,7 +582,7 @@ const Laboratory = () => {
     } catch (error) {
       console.error(
         "Ошибка при изменении статуса лабораторной работы:",
-        error.message
+        error.message,
       );
       return false;
     }
@@ -589,7 +599,7 @@ const Laboratory = () => {
       });
       setTimeout(
         () => setNotification({ ...notification, visible: false }),
-        3000
+        3000,
       );
     } else {
       setNotification({
@@ -599,7 +609,7 @@ const Laboratory = () => {
       });
       setTimeout(
         () => setNotification({ ...notification, visible: false }),
-        3000
+        3000,
       );
     }
   };
@@ -615,8 +625,8 @@ const Laboratory = () => {
                 status:
                   item.status === "published" ? "unpublished" : "published",
               }
-            : item
-        )
+            : item,
+        ),
       );
       setNotification({
         message: "Статус лабораторной работы успешно изменен!",
@@ -625,7 +635,7 @@ const Laboratory = () => {
       });
       setTimeout(
         () => setNotification({ ...notification, visible: false }),
-        3000
+        3000,
       );
     } else {
       setNotification({
@@ -635,15 +645,41 @@ const Laboratory = () => {
       });
       setTimeout(
         () => setNotification({ ...notification, visible: false }),
-        3000
+        3000,
       );
     }
+  };
+
+  const fetchSubjects = async () => {
+    await getSubjects()
+      .then((res) => {
+        setSubjects(res.data);
+      })
+      .catch((error) => {
+        console.error(
+          "Ошибка загрузки дисциплин преподавателя:",
+          error.message,
+        );
+        setSubjects([]);
+      });
   };
 
   useEffect(() => {
     fetchLabs();
     fetchGroups();
+    fetchSubjects();
   }, []);
+
+  useEffect(() => {
+    if (searchValue.length < 0) {
+      setLabItemsToShow(labItems);
+    }
+    if (Array.isArray(labItems) && labItems.length > 0) {
+      setLabItemsToShow(
+        labItems.filter((lab) => lab.name.includes(searchValue)),
+      );
+    }
+  }, [searchValue, labItems]);
 
   const getColors = (index) => {
     return index % 2 === 0
@@ -671,10 +707,7 @@ const Laboratory = () => {
           >
             Добавить новую Лабораторную работу
           </Link>
-          <select
-            name="group_name"
-            className="section__login-formSelect"
-          >
+          <select name="group_name" className="section__login-formSelect">
             {groups.length === 0 ? (
               <option value="">Загрузка групп...</option>
             ) : (
@@ -690,43 +723,56 @@ const Laboratory = () => {
           <TextStyle>Лабораторные работы не найдены</TextStyle>
         ) : (
           <ListLab>
-            {labItems.map((item, index) => (
-              <li className={getColors(index)} key={item.id}>
-                <NameLab>
-                  {item.name} (Предмет: {item.subject})
-                </NameLab>
-                <SpnLab>
-                  <Link
-                    to={`/PrepodRedLab/${item.id}`}
-                    className="section__lab-edit"
-                  >
-                    Редактировать
-                  </Link>
-                  <ButtonDelete
-                    onClick={() => handleDeleteClick(item.id, index)}
-                  >
-                    Удалить
-                  </ButtonDelete>
-                  {item.status === "published" ? (
-                    <PublishButton
-                      style={{
-                        backgroundColor: "#e0e0e0",
-                        color: "#555",
-                      }}
-                      onClick={() => handleUpdateStatusLabClick(item.id, index)}
+            {labItemsToShow.map((item, index) => {
+              console.log(item);
+              const subject = subjects.find(
+                (subject) => Number(subject.id) === Number(SubjectId),
+              );
+
+              if (SubjectId && subject && item.subject !== subject.name) return;
+
+              return (
+                <li className={getColors(index)} key={item.id}>
+                  <NameLab>
+                    {item.name} (Предмет: {item.subject})
+                  </NameLab>
+                  <SpnLab>
+                    <Link
+                      to={`/PrepodRedLab/${item.id}`}
+                      className="section__lab-edit"
                     >
-                      Открепить
-                    </PublishButton>
-                  ) : (
-                    <PublishButton
-                      onClick={() => handleUpdateStatusLabClick(item.id, index)}
+                      Редактировать
+                    </Link>
+                    <ButtonDelete
+                      onClick={() => handleDeleteClick(item.id, index)}
                     >
-                      Опубликовать
-                    </PublishButton>
-                  )}
-                </SpnLab>
-              </li>
-            ))}
+                      Удалить
+                    </ButtonDelete>
+                    {item.status === "published" ? (
+                      <PublishButton
+                        style={{
+                          backgroundColor: "#e0e0e0",
+                          color: "#555",
+                        }}
+                        onClick={() =>
+                          handleUpdateStatusLabClick(item.id, index)
+                        }
+                      >
+                        Открепить
+                      </PublishButton>
+                    ) : (
+                      <PublishButton
+                        onClick={() =>
+                          handleUpdateStatusLabClick(item.id, index)
+                        }
+                      >
+                        Опубликовать
+                      </PublishButton>
+                    )}
+                  </SpnLab>
+                </li>
+              );
+            })}
           </ListLab>
         )}
       </SectionLab>
@@ -741,3 +787,4 @@ const Laboratory = () => {
 };
 
 export default Laboratory;
+
