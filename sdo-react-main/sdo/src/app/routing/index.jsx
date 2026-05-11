@@ -28,77 +28,126 @@ const MainRouter = ({ setIsLoggedIn }) => {
         <Route path="/login" element={<Auto setIsLoggedIn={setIsLoggedIn} />} />
         <Route
           path="/registration"
-          element={<Registration setIsLoggedIn={setIsLoggedIn} />} />
+          element={<Registration setIsLoggedIn={setIsLoggedIn} />}
+        />
         <Route path="/" element={<Main />} />
 
         <Route path="/student/:id" element={<StudentPage />} />
 
-        <Route path="/Laboratory" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
-            <Laboratory />
-          </ProtectedRoute>
-        } />
-        <Route path="/PrepodRedLab/:id" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
-            <PrepodRedLab />
-          </ProtectedRoute>
-        } />
-        <Route path="/LaboratoryAdd" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
-            <LaboratoryAdd />
-          </ProtectedRoute>
-        } />
-        <Route path="/PersonalTeacher" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
-            <PersonalTeacher />
-          </ProtectedRoute>
-        } />
-        <Route path="/checkLaboratory" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
-            <CheckLaboratory />
-          </ProtectedRoute>
-        } />
-        <Route path="/groups/:groupId" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
-            <Groups />
-          </ProtectedRoute>
-        } />
-        <Route path="/disciplines" element={
-          <ProtectedRoute allowedRoles={['teacher']}>
-            <Disciplines />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/Laboratory"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <Laboratory />
+            </ProtectedRoute>
+          }
+        />
 
-        <Route path="/StudLaboratory" element={
-          <ProtectedRoute allowedRoles={['student']}>
-            <StudLaboratory />
-          </ProtectedRoute>
-        } />
-        <Route path="/PersonalStud" element={
-          <ProtectedRoute allowedRoles={['student']}>
-            <PersonalStud />
-          </ProtectedRoute>
-        } />
-        <Route path="/disciplinesStud" element={
-          <ProtectedRoute allowedRoles={['student']}>
-            <DisciplinesStud />
-          </ProtectedRoute>
-        } />
-        <Route path="/LabaStud/:taskId" element={
-          <ProtectedRoute allowedRoles={['student']}>
-            <LabaStud />
-          </ProtectedRoute>
-        } />
-        <Route path="/attempts" element={
-          <ProtectedRoute allowedRoles={['student']}>
-            <Attempts />
-          </ProtectedRoute>
-        } />
-        <Route path="/testLabs" element={
-          <ProtectedRoute allowedRoles={['student']}>
-            <TestLabs />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/Laboratory/:SubjectId"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <Laboratory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/PrepodRedLab/:id"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <PrepodRedLab />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/LaboratoryAdd"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <LaboratoryAdd />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/PersonalTeacher"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <PersonalTeacher />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/checkLaboratory"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <CheckLaboratory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/groups/:groupId"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <Groups />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/disciplines"
+          element={
+            <ProtectedRoute allowedRoles={["teacher"]}>
+              <Disciplines />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/StudLaboratory"
+          element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <StudLaboratory />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/PersonalStud"
+          element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <PersonalStud />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/disciplinesStud"
+          element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <DisciplinesStud />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/LabaStud/:taskId"
+          element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <LabaStud />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/attempts"
+          element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <Attempts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/testLabs"
+          element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <TestLabs />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
