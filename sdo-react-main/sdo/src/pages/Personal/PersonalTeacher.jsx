@@ -314,7 +314,10 @@ const PersonalTeacher = () => {
         setSubjects(res.data);
       })
       .catch((error) => {
-        console.error("Ошибка загрузки дисциплин преподавателя:", error.message);
+        console.error(
+          "Ошибка загрузки дисциплин преподавателя:",
+          error.message,
+        );
         setSubjects([]);
       });
   }, []);
@@ -330,7 +333,7 @@ const PersonalTeacher = () => {
   };
 
   const handleSubjectClick = (subjectId) => {
-    navigate(`/Subjects/${subjectId}`);
+    navigate(`/laboratory/${subjectId}`);
   };
 
   return (
@@ -339,7 +342,7 @@ const PersonalTeacher = () => {
         <List>
           <Text>ФИО преподавателя:</Text>
           <TextDisciplines>
-            {teacherInfo.last_name} {teacherInfo.first_name} {" "}
+            {teacherInfo.last_name} {teacherInfo.first_name}{" "}
             {teacherInfo.middle_name}
           </TextDisciplines>
         </List>
