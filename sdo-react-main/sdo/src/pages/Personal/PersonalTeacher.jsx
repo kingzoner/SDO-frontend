@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getUserData } from "../../api/user-api";
 import { getGroups, getSubjects } from "../../api/teacher-api";
 
@@ -10,7 +10,9 @@ const SectionLab = styled.div`
   justify-content: center;
   padding: 75px 0px 100px;
   box-sizing: border-box;
-
+  .mobile{
+    display:none;
+  }
   @media (max-width: 1024px) {
     padding: 60px 20px 80px;
     gap: 18px;
@@ -36,6 +38,9 @@ const SectionLab = styled.div`
   @media (max-width: 480px) {
     padding: 32px 16px 60px;
     gap: 24px;
+    .mobile{
+      display:block;
+    };
   }
 `;
 
@@ -74,7 +79,6 @@ const List = styled.li`
     min-height: 85px;
     padding: 14px;
   }
-
   @media (max-width: 480px) {
     max-width: 100%;
     min-height: 80px;
@@ -169,6 +173,7 @@ const BigList = styled.li`
     max-width: 100%;
     padding: 16px 12px;
     gap: 8px;
+    display: none;
   }
 `;
 
@@ -222,10 +227,36 @@ const RowBlocks = styled.div`
     max-width: 100%;
     gap: 11px;
   }
+  .BtnEx{
+    width: 100%;
+    display: none;
+    background-color: #FF7070;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    height: 50px;
+  }
+  .Btn{
+    width: 100%;
+    display: none;
+    background-color: #e6f4cf;
+    border-radius: 8px;
+    color: black;
+    text-decoration: none;
+    height: 50px;
+  }
 
   @media (max-width: 480px) {
     max-width: 100%;
     gap: 12px;
+    .Btn{
+      display: block;
+      font-size: 16px;
+    }
+    .BtnEx{
+      display: block;
+      font-size: 16px;
+    }
   }
 `;
 
@@ -288,6 +319,12 @@ const PersonalTeacher = () => {
       });
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("status");
+    navigate("/");
+  };
+
   const handleGroupClick = (groupId) => {
     navigate(`/Groups/${groupId}`);
   };
@@ -310,6 +347,20 @@ const PersonalTeacher = () => {
           <Text>Факультет:</Text>
           <TextDisciplines>{teacherInfo.faculty}</TextDisciplines>
         </List>
+        <List className="mobile">
+          <Text>Группы:</Text>
+          <GroupsContainer>
+           {groups.length > 0 ? (
+              groups.map((group) => (
+                <TextDiscipline key={group.id}>
+                  {group.name}
+                </TextDiscipline>
+             ))
+    ) : (
+      <Text>Группы не найдены</Text>
+    )}
+  </GroupsContainer>
+        </List>
       </RowBlocks>
       <RowBlocks>
         <BigList>
@@ -329,6 +380,18 @@ const PersonalTeacher = () => {
             )}
           </GroupsContainer>
         </BigList>
+        <Link to="/Disciplines" className="Btn">
+            <Text>Дисциплины</Text>
+        </Link>
+        <Link to="/laboratory" className="Btn">
+            <Text>Лабараторные работы</Text>
+        </Link>
+        <Link to="/groups" className="Btn">
+            <Text>Обучающиеся студенты</Text>
+        </Link>
+        <button className="BtnEx" onClick={handleLogout}>
+            Выйти
+        </button>
         <BigList>
           <Text>Список групп:</Text>
           <GroupsContainer>

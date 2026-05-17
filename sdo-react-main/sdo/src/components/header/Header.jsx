@@ -243,6 +243,7 @@ const Nav = styled.nav`
       text-overflow: ellipsis;
       justify-content: center;
       align-items: center;
+      display: none;
     }
     .label-full {
       display: none;
@@ -371,6 +372,7 @@ const ButtonEx = styled.button`
     border-radius: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: none;
   }
 
   @media (max-width: 400px) {
@@ -383,6 +385,7 @@ const ButtonEx = styled.button`
     border-radius: 4px;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: none;
   }
 `;
 

@@ -4,10 +4,11 @@ import styled from "styled-components";
 
 // Аналогичен вашему StyledContainer
 const StyledContainer = styled.div`
+  box-sizing: border-box;
   background-color: #e6f4cf;
   font-family: "Montserrat";
-  width: 1480px;
-  height: 100px;
+  width: 100%;
+  min-height: 70px;
   padding: 0 20px;
   display: flex;
   align-items: center;
@@ -15,6 +16,10 @@ const StyledContainer = styled.div`
   margin: 10px 0;
   transition: background-color 0.3s;
   border-radius: 7px;
+  @media (max-width: 480px) {
+    min-height: 86px;
+    min-width: 158px;
+  }
 `;
 
 const DisciplineContent = styled.div`
@@ -26,6 +31,11 @@ const DisciplineName = styled.div`
   font-weight: normal;
   font-size: 20px;
   margin-right: 10px;
+  overflow: hidden;
+  @media (max-width: 480px) {
+    font-size: 16px;
+    margin:auto;
+  }
 `;
 
 const ChooseButton = styled.button`
@@ -41,6 +51,9 @@ const ChooseButton = styled.button`
 
   &:hover {
     background-color: #0056b3;
+  }
+  @media (max-width: 480px) {
+    display: none;
   }
 `;
 

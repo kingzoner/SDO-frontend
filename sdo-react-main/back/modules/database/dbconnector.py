@@ -13,7 +13,7 @@ from passlib.context import CryptContext
 import os
 
 # sleep(15)
-sqlite_database = os.environ.get("DB_CON")
+sqlite_database = os.environ.get("DB_CON", "sqlite:///./database/tst.db")
 engine = create_engine(sqlite_database, echo=True)
 Base.metadata.create_all(bind=engine)
 

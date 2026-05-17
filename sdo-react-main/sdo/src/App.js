@@ -3,10 +3,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/header/Header";
 import MainRouter from "./app/routing";
 import Footer from "./components/Footer/Footer";
+import FooterMobile from "./components/Footer/FooterMobile";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("access_token")
+    !!localStorage.getItem("access_token"),
   );
 
   useEffect(() => {
@@ -32,6 +33,7 @@ function App() {
       <Router>
         <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <MainRouter setIsLoggedIn={setIsLoggedIn} />
+        <FooterMobile isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       </Router>
     </div>
   );
